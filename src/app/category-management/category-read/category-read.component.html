@@ -1,0 +1,13 @@
+<p>category-management works!</p>
+<div *ngIf="categories.length>0">
+  <table border="1">
+    <tr>
+      <td>Id</td>
+      <td>Descripcion</td>
+    </tr>
+    <tr *ngFor="let p of categories">
+      <td>{{p.idCategoria}}</td>
+      <td>{{p.descripcion}}</td>
+    </tr>
+  </table>
+</div>
