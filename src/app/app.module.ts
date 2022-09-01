@@ -8,12 +8,16 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {CategoryManagementService} from "./service/category-management/category-management.service";
 import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
+import { CategoryUpdateComponent } from './category-management/category-update/category-update.component';
+import { CategoryDeleteComponent } from './category-management/category-delete/category-delete.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CategoryReadComponent,
-    CategoryCreateComponent
+    CategoryCreateComponent,
+    CategoryUpdateComponent,
+    CategoryDeleteComponent
   ],
   imports: [
     BrowserModule,
