@@ -10,6 +10,7 @@ import {CategoryManagementService} from "./service/category-management/category-
 import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
 import { MenuComponent } from './menu/menu.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +25,6 @@ import { MenuComponent } from './menu/menu.component';
     FormsModule
   ],
   providers: [
-    CategoryManagementService
   ],
   bootstrap: [AppComponent]
 })

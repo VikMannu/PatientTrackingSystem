@@ -14,7 +14,7 @@ const routes: Routes = [
     component: CategoryCreateComponent
   },
   {
-    path: 'menu',
+    path: '',
     component: MenuComponent
   }
 ];
