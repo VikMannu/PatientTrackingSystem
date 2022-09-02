@@ -1,13 +1,69 @@
-<p>category-management works!</p>
-<div *ngIf="categories.length>0">
-  <table border="1">
-    <tr>
-      <td>Id</td>
-      <td>Descripcion</td>
-    </tr>
-    <tr *ngFor="let p of categories">
-      <td>{{p.idCategoria}}</td>
-      <td>{{p.descripcion}}</td>
-    </tr>
-  </table>
+<nav class="navbar navbar-ligth bg-primary">
+<div class="container-fluid">
+    <h1 style="color:aliceblue">Categorías</h1>
+    <div class="d-flex">
+      <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear Categoria</button>
+      <a class="btn btn-primary" href="" role="button">Volver</a>
+    </div>
+  </div>
+</nav>
+<p *ngIf="message!=''">{{ message }}</p>
+<div class="container text-rigth">
+  <div class="row">
+    <div class="col-md">
+      <div class="table-responsive">
+        <table class="table table-striped caption-top">
+          <caption>
+            Lista de categorías
+          </caption>
+
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of categories">
+              <td>{{ p.idCategoria }}</td>
+              <td>{{ p.descripcion }}</td>
+              <td>
+                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editCategory(p)">Editar</button>
+                <button class="btn btn-danger mx-3" (click)="deleteCategory(p)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="showAdd" class="modal-title" id="exampleModalLabel">Agregar Categoría</h5>
+        <h5 *ngIf="showUpdate" class="modal-title" id="exampleModalLabel">Editar Categoría</h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup] = "formValue">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Descripción</label>
+            <input type="text" formControlName="descripcion" class="form-control"  [(ngModel)]="category.descripcion" >
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancel" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" *ngIf="showAdd" class="btn btn-primary" (click)="saveCategory()">Agregar</button>
+        <button type="button" *ngIf="showUpdate" class="btn btn-primary" (click)="updateCategory()">Actualizar</button>
+      </div>
+    </div>
+  </div>
 </div>

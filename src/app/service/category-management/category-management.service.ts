@@ -27,4 +27,27 @@ export class CategoryManagementService {
         )
       );
   }
-}
+
+  updateCategory(c: Category): Observable<Category> {
+    return this.http
+      .post<Category>(this.api+c.idCategoria, c)
+      .pipe(
+        tap( // Log the result or error
+          data => console.log('agregado ' + data),
+          error => console.log("error: " + error)
+        )
+      );
+  }
+  deleteCategory(idCategoria:number): Observable<Category> {
+    const url = `${this.api}/${idCategoria}`;
+    return this.http.delete<Category>(url).pipe(
+      tap(
+        // Log the result or error
+        (data) => console.log(`Eliminado id=${idCategoria}`),
+        (error) => console.log('error: ' + error)
+      )
+    );
+  }
+  }
+
+
