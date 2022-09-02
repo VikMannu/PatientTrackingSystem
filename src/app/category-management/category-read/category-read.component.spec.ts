@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CategoryReadComponent } from './category-read.component';
+
 
 describe('CategoryReadComponent', () => {
   let component: CategoryReadComponent;

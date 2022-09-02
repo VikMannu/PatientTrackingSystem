@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import {Category} from "../../model/category";
 import {CategoryManagementService} from "../../service/category-management/category-management.service";
@@ -8,7 +9,10 @@ import {CategoryManagementService} from "../../service/category-management/categ
   styleUrls: ['./category-read.component.css']
 })
 export class CategoryReadComponent implements OnInit {
+  category: Category = new Category();
+  //lista de  categorias existentes
   categories: Category[] = [];
+  message: string = "";
 
   constructor(private serviceCategory: CategoryManagementService) { }
 
@@ -19,4 +23,12 @@ export class CategoryReadComponent implements OnInit {
     );
   }
 
+  saveCategory(): void{
+    this.serviceCategory.createCategory(this.category).subscribe(
+      () => {
+        this.message='Agregado exitosamente'
+      },
+      error => console.log("error: "+error)
+    );
+  }
 }

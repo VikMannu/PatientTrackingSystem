@@ -1,13 +1,44 @@
-<p>category-management works!</p>
-<div *ngIf="categories.length>0">
-  <table border="1">
-    <tr>
-      <td>Id</td>
-      <td>Descripcion</td>
-    </tr>
-    <tr *ngFor="let p of categories">
-      <td>{{p.idCategoria}}</td>
-      <td>{{p.descripcion}}</td>
-    </tr>
-  </table>
+<div class="h2 mb-2 bg-primary text-white" style="--bs-bg-opacity: 0.8">
+  Categorías
+</div>
+<p *ngIf="message!=''">{{ message }}</p>
+
+<div class="container">
+  <h4>Agregar categoría</h4>
+  Descripción: <input [(ngModel)]="category.descripcion" />
+  <br>
+  <br>
+  <div class="col">
+    <button type="submit" class="btn btn-primary" (click)="saveCategory()">
+      Guardar
+    </button>
+    <a class="btn btn-primary" href="/category-create" role="button">Gestion Subcategorias</a>
+  </div>
+</div>
+<div class="container text-rigth">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="table-responsive">
+        <table class="table table-striped caption-top">
+          <caption>
+            Lista de categorías
+          </caption>
+
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of categories">
+              <td>{{ p.idCategoria }}</td>
+              <td>{{ p.descripcion }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
 </div>
