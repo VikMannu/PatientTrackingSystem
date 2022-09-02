@@ -1,0 +1,33 @@
+
+<div class="container">
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">Email</th>
+        <th scope="col">RUC</th>
+        <th scope="col">Cédula</th>
+        <th scope="col">Tipo Persona</th>
+        <th scope="col">Fecha de Nacimiento</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let patient of patients">
+        <th scope="row">{{patient.idPersona}}</th>
+        <td>{{patient.nombre}}</td>
+        <td>{{patient.apellido}}</td>
+        <td>{{patient.telefono}}</td>
+        <td>{{patient.email}}</td>
+        <td>{{patient.ruc}}</td>
+        <td>{{patient.cedula}}</td>
+        <td>{{patient.tipoPersona}}</td>
+        <td>{{patient.fechaNacimiento}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
