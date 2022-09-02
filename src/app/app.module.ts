@@ -10,14 +10,12 @@ import {CategoryManagementService} from "./service/category-management/category-
 import { MenuComponent } from './menu/menu.component';
 import { SubcategoriesManagementComponent } from './subcategories-management/subcategories-management.component';
 import { SubcategoryManagementService } from './service/subcategory-management.service';
-import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CategoryReadComponent,
-    CategoryCreateComponent,
     SubcategoriesManagementComponent,
     MenuComponent
   ],
