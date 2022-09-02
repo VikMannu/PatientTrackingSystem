@@ -11,8 +11,8 @@ export class PatientService {
 
   constructor(private http: HttpClient) { }
 
-  getPatientsList(cant: number): Observable<DataList<Patient>>{
-    let direction = "/stock-nutrinatalia/persona?inicio=0&cantidad=" + cant + "&orderBy=apellido&orderDir=desc";
+  getPatientsList(): Observable<DataList<Patient>>{
+    let direction = "/stock-nutrinatalia/persona?";
     return this.http.get<DataList<Patient>>(direction);
   }
 

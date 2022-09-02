@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientService } from "../../../service/patient/patient.service";
-import { Patient } from "../../../model/patient";
+import { PatientService } from "../../service/patient/patient.service";
+import { Patient } from "../../model/patient";
 
 
 @Component({
@@ -19,7 +19,7 @@ export class PatientsListComponent implements OnInit {
   constructor(private api:PatientService) { }
 
   ngOnInit(): void {
-    this.api.getPatientsList(30).subscribe(data => {
+    this.api.getPatientsList().subscribe(data => {
         this.patients = data.lista;
         this.totalPatients = data.totalDatos;
       }

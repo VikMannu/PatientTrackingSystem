@@ -7,7 +7,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {CategoryManagementService} from "./service/category-management/category-management.service";
 import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
-import {PatientsListComponent} from "./views/patients/patients-list/patients-list.component";
+import {PatientsListComponent} from "./views/patients/patients-list.component";
 
 @NgModule({
   declarations: [
