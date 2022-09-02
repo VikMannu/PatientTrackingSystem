@@ -1,0 +1,80 @@
+<nav class="navbar navbar-ligth bg-primary">
+  <div class="container-fluid">
+      <h1 style="color:aliceblue">Tipo de Productos</h1>
+      <div class="d-flex">
+        <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear</button>
+        <a class="btn btn-primary" routerLink="/category-read" role="button">Volver</a>
+      </div>
+    </div>
+  </nav>
+  <p *ngIf="message!=''">{{ message }}</p>
+  <div class="container text-rigth">
+    <div class="row">
+      <div class="col-md">
+        <div class="table-responsive">
+          <table class="table table-striped caption-top">
+            <caption>
+              Lista de Tipo de Productos
+            </caption>
+
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Id Categoria</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of subcategories">
+                <td>{{ p.idTipoProducto }}</td>
+                <td>{{ p.descripcion }}</td>
+                <td>{{ p.idCategoria.idCategoria }}</td>
+                <td>
+                  <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editSubcategory(p)">Editar</button>
+                  <button class="btn btn-danger mx-3" (click)="deleteSubcategory(p)">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 *ngIf="showAdd" class="modal-title" id="exampleModalLabel">Agregar tipo</h5>
+          <h5 *ngIf="showUpdate" class="modal-title" id="exampleModalLabel">Editar tipo</h5>
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup] = "formValue">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Descripción</label>
+              <input type="text" formControlName="descripcion" class="form-control">
+              <label for="exampleInputEmail2" class="form-label">Id Categoria</label>
+              <input type="text" formControlName="categoria" class="form-control">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancel" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" *ngIf="showAdd" class="btn btn-primary" (click)="saveSubcategory()">Agregar</button>
+          <button type="button" *ngIf="showUpdate" class="btn btn-primary" (click)="updateSubcategory()">Actualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end mx-4">
+      <li class="page-item"><a *ngIf="config.currentPage>1" class="page-link" (click)="changePage(config.currentPage-1)">Anterior</a></li>
+      <li class="page-item"><a class="page-link" (click)="changePage(config.currentPage-1)">{{config.currentPage}} </a></li>
+      <li class="page-item"><a *ngIf="subcategories.length>1"class="page-link" (click)="changePage(config.currentPage+1)">Siguiente</a></li>
+    </ul>
+  </nav>
