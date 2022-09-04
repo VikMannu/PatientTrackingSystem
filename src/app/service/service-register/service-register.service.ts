@@ -16,11 +16,29 @@ export class ServiceRegisterService {
   getAllServices():Observable<DataList<Service>>{
     return this.http.get<DataList<Service>>(`${environment.baseUrlApi}/${this.serviceUrl}`)
   }
-  getService():Observable<DataList<Service>>{
-    const filter = encodeURIComponent('{"idEmpleado":{"idPersona":1}}');
-    console.log(`${environment.baseUrlApi}/${this.serviceUrl}?ejemplo=${filter}`);
+
+  /**
+   * @param filters 
+   * @returns DataList<Service>
+   * the values of the filter should to have the next order (mandatory):
+   *  [fechaDesdeCadena,fechaHastaCadena,idCliente,idEmpleado]
+   *  if you don't have some of these values just sent null e.g [null,fechaHastaCadena,null,null]
+   */
+  getService(filters =[null,null,null,null]):Observable<DataList<Service>>{
+    // const filter = encodeURIComponent('{"idEmpleado":{"idPersona":1}}');
+
+    const encodeUrl = encodeURIComponent(
+      `{
+        "fechaDesdeCadena":${filters[0] != null ? `"${filters[0]}"`:null},
+        "fechaHastaCadena":${filters[1] != null ? `"${filters[0]}"`:null},
+        "idFichaClinica":{"idCliente":{"idPersona":${filters[2]}}},
+        "idEmpleado":{"idPersona":${filters[3]}}
+      }`
+      )
+    console.log('url',`${environment.baseUrlApi}/${this.serviceUrl}?ejemplo=${encodeUrl}`);
     
-    return this.http.get<DataList<Service>>(`${environment.baseUrlApi}/${this.serviceUrl}?ejemplo=${filter}`)
+    return this.http.get<DataList<Service>>(`${environment.baseUrlApi}/${this.serviceUrl}?ejemplo=${encodeUrl}`)
   }
+
 
 }

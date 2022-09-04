@@ -84,7 +84,7 @@
 
         <div class="col-sm-12 col-md-6">
           <label for="sub-categoria" class="form-label">Subcategoria</label>
-          <select formArrayName="subcategory" name="subcategoria" id="sub-categoria" class="form-control">
+          <select formControlName="subcategory" name="subcategory" id="sub-categoria" class="form-control">
             <option value="">Selecciona un valor</option>
             <option
               *ngFor="let subcategory of subcategories"
@@ -109,7 +109,7 @@
     </form>
 
     <!-- Services table -->
-    <table class="table table-responsive mt-5 rounded border">
+    <table class="table table-responsive mt-5 pb-5 rounded border">
       <thead class="thead-dark">
         <tr>
           <th>Fecha</th>
@@ -139,8 +139,14 @@
             <button class="btn btn-info text-white">ver</button>
           </td>
         </tr>
-      </tbody>
-    </table>
+        <tr *ngIf="services.length == 0">
+            <td colspan="8">
+                <span class="text-danger text-center">No se encontraron resultados</span>
+            </td>
+        </tr>
+      
+    </tbody>
+</table>
   </div>
 </div>
 

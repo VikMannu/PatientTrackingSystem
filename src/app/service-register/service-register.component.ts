@@ -44,19 +44,19 @@ export class ServiceRegisterComponent implements OnInit {
       if(res?.lista.length > 0){
         this.clientsAndEmployees =res.lista 
       }
-      console.log(this.clientsAndEmployees);  
+      // console.log(this.clientsAndEmployees);  
     });
   }
   initForm():void{
     this.formValue = this.formbuilber.group({
-      idClient: [''],
-      idEmployee: [''],
-      nameClient: [''],
-      nameEmployee: [''],
-      dateStart: [''],
-      dateEnd: [''],
-      category: [''],
-      subcategory: [''],
+      idClient: null,
+      idEmployee: null,
+      nameClient: null,
+      nameEmployee: null,
+      dateStart: null,
+      dateEnd: null,
+      category: '',
+      subcategory: ''
     });
   }
   getServices(){
@@ -64,7 +64,7 @@ export class ServiceRegisterComponent implements OnInit {
       if(res?.lista.length > 0){
         this.services =res.lista 
       }
-      console.log(this.services);  
+      // console.log(this.services);  
     });
   }
 
@@ -73,7 +73,7 @@ export class ServiceRegisterComponent implements OnInit {
       if(res?.lista.length > 0){
         this.categories =res.lista 
       }
-      console.log(this.categories);
+      // console.log(this.categories);
       
     })
   }
@@ -83,7 +83,7 @@ export class ServiceRegisterComponent implements OnInit {
       if(res?.lista.length > 0){
         this.subcategories =res.lista 
       }
-      console.log(this.subcategories);
+      // console.log(this.subcategories);
       
     })
   }
@@ -93,6 +93,7 @@ export class ServiceRegisterComponent implements OnInit {
   cleanFilters():void {
 
     this.formValue.reset();
+    this.getServices();
     
   }
 
@@ -121,7 +122,7 @@ export class ServiceRegisterComponent implements OnInit {
    */
 
    setModalOptionSelected(person:Person){
-    console.log(person);
+    
     if(this.modalClient){
       this.formValue.controls['idClient'].setValue(person.idPersona);
       this.formValue.controls['nameClient'].setValue(person.nombre);
@@ -137,8 +138,53 @@ export class ServiceRegisterComponent implements OnInit {
     * search service using filters
     */
     search():void{
-      this.serviceRegisterService.getService().subscribe((res:any)=>{
-        console.log(res);
+      //getting filters from form
+      const filters = this.getFilters();
+      
+      //getting results from request
+      this.serviceRegisterService.getService(filters).subscribe((res:any)=>{
+        
+        if(res?.lista){
+          this.services = res.lista;
+
+          //filter by categories and subcategories
+          const category = this.formValue.get('category')?.value;
+          const subcategory = this.formValue.get('subcategory')?.value;
+          
+          
+          if(category || subcategory){
+            
+            this.services = this.services.filter((value,index)=>{
+              let result = true;
+              //filter category
+              if(category){
+                  result = value.idFichaClinica.idTipoProducto.idCategoria.idCategoria ==category;
+              }
+
+              //filter subcategory
+              if (subcategory && result) {
+                result = value.idFichaClinica.idTipoProducto.idTipoProducto == subcategory;
+              }
+              
+              return result;
+            });
+            
+          }
+        }
+        
       })
+    }
+
+    getFilters():Array<any>{
+      //replace format to all dates inputs
+      const dateStart = this.formValue.get('dateStart')?.value;
+      const dateEnd = this.formValue.get('dateEnd')?.value;
+
+      return [
+        dateStart != null ? dateStart.replaceAll('-','') :null,
+        dateEnd != null ? dateEnd.replaceAll('-','') :null,
+        this.formValue.get('idClient')?.value ?? null,
+        this.formValue.get('idEmployee')?.value ?? null
+      ]
     }
 }
