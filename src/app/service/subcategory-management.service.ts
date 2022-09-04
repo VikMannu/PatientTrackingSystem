@@ -19,6 +19,10 @@ export class SubcategoryManagementService {
     return this.http.get<DataList<Subcategory>>(this.api+url);
   }
 
+  getAllSubcategories(): Observable<DataList<Subcategory>> { 
+    return this.http.get<DataList<Subcategory>>(this.api);
+  }
+
   createSubcategory(c: Subcategory): Observable<Subcategory> {
     return this.http
       .post<Subcategory>(this.api, c)
