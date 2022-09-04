@@ -16,7 +16,7 @@ export class PatientManagementService {
 
   getPatients(itemsPerPage: number, inicio: number): Observable<DataList<Person>> {
 
-    const url = `?inicio=${inicio}&cantidad=${itemsPerPage}&orderBy=apellido&orderDir=desc`;
+    const url = `?inicio=${inicio}&cantidad=${itemsPerPage}&orderBy=idPersona&orderDir=desc`;
 
     return this.http.get<DataList<Person>>(this.api+url);
   }

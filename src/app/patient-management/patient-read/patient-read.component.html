@@ -8,9 +8,7 @@
   </div>
 </nav>
 
-
 <p *ngIf="message!=''">{{ message }}</p>
-
 
 <div class="container text-rigth">
   <div class="row">
@@ -46,8 +44,10 @@
             <td>{{patient.tipoPersona}}</td>
             <td>{{patient.fechaNacimiento}}</td>
             <td>
-              <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editPatient(patient)">Editar</button>
-              <button class="btn btn-danger mx-3" (click)="deletePatient(patient)">Eliminar</button>
+              <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editPatient(patient)">Editar</button>
+                <button class="btn btn-danger mx-3" (click)="deletePatient(patient)">Eliminar</button>
+              </div>
             </td>
           </tbody>
         </table>
@@ -55,8 +55,6 @@
     </div>
   </div>
 </div>
-
-
 
 
 <!-- Modal -->
@@ -78,23 +76,23 @@
             <label for="exampleInputEmail1" class="form-label">Apellido</label>
             <input type="text" formControlName="apellido" class="form-control"  [(ngModel)]="patient.apellido" >
 
-            <label for="exampleInputEmail1" class="form-label">Teléfono</label>
-            <input type="number" formControlName="telefono" class="form-control"  [(ngModel)]="patient.telefono" >
-
             <label for="exampleInputEmail1" class="form-label">Email</label>
-            <input type="email" formControlName="email" class="form-control"  [(ngModel)]="patient.email" >
+            <input type="text" formControlName="email" class="form-control"  [(ngModel)]="patient.email" >
+
+            <label for="exampleInputEmail1" class="form-label">Teléfono</label>
+            <input type="text" formControlName="telefono" class="form-control"  [(ngModel)]="patient.telefono" >
 
             <label for="exampleInputEmail1" class="form-label">RUC</label>
             <input type="text" formControlName="ruc" class="form-control"  [(ngModel)]="patient.ruc" >
 
             <label for="exampleInputEmail1" class="form-label">Cédula</label>
-            <input type="number" formControlName="cedula" class="form-control"  [(ngModel)]="patient.cedula" >
+            <input type="text" formControlName="cedula" class="form-control"  [(ngModel)]="patient.cedula" >
 
             <label for="exampleInputEmail1" class="form-label">Tipo Persona</label>
             <input type="text" formControlName="tipoPersona" class="form-control"  [(ngModel)]="patient.tipoPersona" >
 
-            <label for="exampleInputEmail1" class="form-label">Fecha de Nacimiento</label>
-            <input type="date" formControlName="fechaNacimiento" class="form-control"  [(ngModel)]="patient.fechaNacimiento" >
+            <label for="exampleInputEmail1" class="form-label">Fecha de Nacimiento (YYYY-MM-DD HH:MM:SS)</label>
+            <input type="text" formControlName="fechaNacimiento" class="form-control"  [(ngModel)]="patient.fechaNacimiento" >
 
           </div>
         </form>
@@ -107,8 +105,6 @@
     </div>
   </div>
 </div>
-
-
 
 
 <nav aria-label="Page navigation example">

@@ -27,8 +27,8 @@ export class PatientReadComponent implements OnInit {
     this.formValue = this.formBuilder.group({
     nombre : [''],
     apellido : [''],
-    telefono : [''],
     email : [''],
+    telefono : [''],
     ruc : [''],
     cedula : [''],
     tipoPersona : [''],
@@ -96,18 +96,17 @@ export class PatientReadComponent implements OnInit {
   }
 
 
-    updatePatient(): void {
-      this.servicePatient.updatePatient(this.patient).subscribe(
-        () => {
-          this.message='Actualizado exitosamente';
-          let ref=document.getElementById('cancel');
-          ref?.click();
-          this.formValue.reset();
-          this.getPatients();
-        },
-        error => console.log("error: "+error)
-      );
-    }
-
+  updatePatient(): void {
+    this.servicePatient.updatePatient(this.patient).subscribe(
+      () => {
+        this.message='Actualizado exitosamente';
+        let ref=document.getElementById('cancel');
+        ref?.click();
+        this.formValue.reset();
+        this.getPatients();
+      },
+      error => console.log("error: "+error)
+    );
   }
 
+}
