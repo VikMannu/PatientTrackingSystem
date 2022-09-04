@@ -11,6 +11,8 @@ import { MenuComponent } from './menu/menu.component';
 import { SubcategoriesManagementComponent } from './subcategories-management/subcategories-management.component';
 import { SubcategoryManagementService } from './service/subcategory-management.service';
 import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
+import { PatientReadComponent } from './patient-management/patient-read/patient-read.component';
+import {PatientManagementService} from "./service/patient-management.service";
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { CategoryCreateComponent } from './category-management/category-create/c
     CategoryReadComponent,
     CategoryCreateComponent,
     SubcategoriesManagementComponent,
-    MenuComponent
+    MenuComponent,
+    PatientReadComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,8 @@ import { CategoryCreateComponent } from './category-management/category-create/c
   ],
   providers: [
     CategoryManagementService,
-    SubcategoryManagementService
+    SubcategoryManagementService,
+    PatientManagementService
   ],
   bootstrap: [AppComponent]
 })

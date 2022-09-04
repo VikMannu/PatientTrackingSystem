@@ -4,6 +4,7 @@ import {CategoryReadComponent} from "./category-management/category-read/categor
 import {CategoryCreateComponent} from "./category-management/category-create/category-create.component";
 import { MenuComponent } from './menu/menu.component';
 import { SubcategoriesManagementComponent } from './subcategories-management/subcategories-management.component';
+import {PatientReadComponent} from "./patient-management/patient-read/patient-read.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'subcategory-management',
     component: SubcategoriesManagementComponent
+  },
+  {
+    path: 'patient-read',
+    component: PatientReadComponent
   }
 ];
 
