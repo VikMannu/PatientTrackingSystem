@@ -97,7 +97,11 @@ export class PatientReadComponent implements OnInit {
 
   changePage(page: number){
     this.config.currentPage=page;
-    this.getPatients();
+    if(this.banIsFilter==0){
+      this.getPatients();
+    }else{
+      this.getFilterPatients();
+    }
   }
 
   savePatient(): void {
