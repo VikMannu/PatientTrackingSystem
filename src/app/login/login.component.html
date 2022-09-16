@@ -4,23 +4,26 @@
   </div>
 </nav>
 <div class="container">
-  <div class="my-3 row">
-    <label for="staticEmail" class="col-sm-2 col-form-label">Usuario</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="user" />
+  <form [formGroup] = "formValue">
+    <div class="my-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">Usuario</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" formControlName="user" />
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <label for="inputPassword" class="col-sm-2 col-form-label"
-      >Contraseña</label
-    >
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword" />
+    <div class="row">
+      <label for="inputPassword" class="col-sm-2 col-form-label"
+        >Contraseña</label
+      >
+      <div class="col-sm-10">
+        <input type="password" class="form-control" formControlName="pass" />
+      </div>
     </div>
-  </div>
-  <div class="my-3 row">
-    <div class="col-sm-10 text-center">
-      <button type="submit" class="btn btn-primary">Ingresar</button>
+    <p *ngIf="message!=''">{{ message }}</p>
+    <div class="my-3 row">
+      <div class="col-sm-10 text-center">
+        <button type="submit" class="btn btn-primary" (click)="verifyLogin()">Ingresar</button>
+      </div>
     </div>
-  </div>
+  </form>
 </div>

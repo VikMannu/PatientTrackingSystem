@@ -28,7 +28,11 @@ const routes: Routes = [
   {
     path: 'service-register',
     component:ServiceRegisterComponent
-  }
+  },
+  {
+    path: 'menu',
+    component: MenuComponent
+  },
 ];
 
 @NgModule({
