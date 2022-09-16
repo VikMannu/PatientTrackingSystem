@@ -12,6 +12,9 @@ import { SubcategoriesManagementComponent } from './subcategories-management/sub
 import { SubcategoryManagementService } from './service/subcategory-management.service';
 import { ProductPresentationComponent } from './product-presentation/product-presentation.component';
 import { LoginComponent } from './login/login.component';
+import { ServiceRegisterComponent } from './service-register/service-register.component';
+import { ServiceRegisterService } from './service/service-register/service-register.service';
+import { PatientManagementService } from './service/patient-management.service';
 
 
 @NgModule({
@@ -21,6 +24,7 @@ import { LoginComponent } from './login/login.component';
     SubcategoriesManagementComponent,
     ProductPresentationComponent,
     MenuComponent,
+    ServiceRegisterComponent,
     LoginComponent
   ],
   imports: [
@@ -32,7 +36,9 @@ import { LoginComponent } from './login/login.component';
   ],
   providers: [
     CategoryManagementService,
-    SubcategoryManagementService
+    SubcategoryManagementService,
+    ServiceRegisterService,
+    PatientManagementService
   ],
   bootstrap: [AppComponent]
 })

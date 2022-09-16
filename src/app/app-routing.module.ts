@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
 import { ProductPresentationComponent } from './product-presentation/product-presentation.component';
 import { SubcategoriesManagementComponent } from './subcategories-management/subcategories-management.component';
+import { ServiceRegisterComponent } from './service-register/service-register.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: '',
     component: LoginComponent
+  },
+  {
+    path: 'service-register',
+    component:ServiceRegisterComponent
   }
 ];
 

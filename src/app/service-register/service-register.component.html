@@ -1,0 +1,225 @@
+<div class="card mx-2 pt-2">
+  <div class="card-header">
+    <h2>Servicios</h2>
+  </div>
+  <div class="card-body">
+    <h4>Filtros de busqueda</h4>
+
+    <!-- Filter section -->
+    <form [formGroup]="formValue">
+      <div class="row filters">
+        <div class="col-sm-12 col-md-6">
+          <label for="date-start" class="form-label">Fecha desde</label>
+          <input formControlName="dateStart" type="date" id="date-start" class="form-control" />
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <label for="date-end" class="form-label">Fecha hasta</label>
+          <input formControlName="dateEnd" type="date" id="date-end" class="form-control" />
+        </div>
+
+        <!--Modal funtionality  -->
+
+        <div class="col-sm-12 col-md-6">
+          <input
+            type="hidden"
+            formControlName="idClient"
+            id="empleado"
+            class="form-control"
+          />
+          <label for="empleado" class="form-label">Empleado</label>
+          <input
+            type="text"
+            formControlName="nameEmployee"
+            id="empleado-name"
+            class="form-control"
+          />
+          <button
+            (click)="showModal('searchEmployee')"
+            class="btn btn-primary my-1 w-100"
+            data-bs-toggle="modal"
+            data-bs-target="#genericModal"
+          >
+            Buscar
+          </button>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+          <input
+            type="hidden"
+            formControlName="idClient"
+            id="cliente"
+            class="form-control"
+          />
+          <label for="cliente-name" class="form-label">Cliente</label>
+          <input
+            type="text"
+            formControlName="nameClient"
+            id="cliente-name"
+            class="form-control"
+          />
+          <button
+            (click)="showModal('searchClient')"
+            class="btn btn-primary my-1 w-100"
+            data-bs-toggle="modal"
+            data-bs-target="#genericModal"
+          >
+            Buscar
+          </button>
+        </div>
+
+        <!--End of Modal funtionality  -->
+
+        <div class="col-sm-12 col-md-6">
+          <label for="categoria" class="form-label">Categoria</label>
+          <select formControlName="category" name="categoria" id="categoria" class="form-select">
+            <option value="">Selecciona un valor</option>
+            <option
+              *ngFor="let category of categories"
+              [value]="category.idCategoria"
+            >
+              {{ category.descripcion }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+          <label for="sub-categoria" class="form-label">Subcategoria</label>
+          <select formControlName="subcategory" name="subcategory" id="sub-categoria" class="form-control">
+            <option value="">Selecciona un valor</option>
+            <option
+              *ngFor="let subcategory of subcategories"
+              [value]="subcategory.idTipoProducto"
+            >
+              {{ subcategory.descripcion }}
+            </option>
+          </select>
+        </div>
+
+        <div class="d-flex gap-2 my-2 justify-content-end">
+          <button class="btn btn-primary" id="btn-search" (click)="search()">Buscar</button>
+          <button
+            class="btn btn-danger"
+            id="btn-clean"
+            (click)="cleanFilters()"
+          >
+            Limpiar
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Services table -->
+    <table class="table table-responsive mt-5 pb-5 rounded border">
+      <thead class="thead-dark">
+        <tr>
+          <th>Fecha</th>
+          <th>Id Ficha</th>
+          <th>Fecha Ficha</th>
+          <th>Profesional</th>
+          <th>Cliente</th>
+          <th>Categoria</th>
+          <th>Subcategoria</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let service of services">
+          <td>{{ service.fechaHora }}</td>
+          <td>{{ service.idFichaClinica.idFichaClinica }}</td>
+          <td>{{ service.idFichaClinica.fechaHora }}</td>
+          <td>{{ service.idFichaClinica.idEmpleado.nombre }}</td>
+          <td>{{ service.idFichaClinica.idCliente.nombre }}</td>
+          <td>
+            {{ service.idFichaClinica.idTipoProducto.idCategoria.descripcion }}
+          </td>
+          <td>{{ service.idFichaClinica.idTipoProducto.descripcion }}</td>
+
+          <td class="d-flex gap-2">
+            <button class="btn btn-warning text-white">Editar Servicion</button>
+            <button class="btn btn-info text-white">ver</button>
+          </td>
+        </tr>
+        <tr *ngIf="services.length == 0">
+            <td colspan="8">
+                <span class="text-danger text-center">No se encontraron resultados</span>
+            </td>
+        </tr>
+      
+    </tbody>
+</table>
+  </div>
+</div>
+
+<!-- Modals -->
+<div
+  class="modal fade"
+  id="genericModal"
+  tabindex="-1"
+  aria-labelledby="genericModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="modalEmployee" class="modal-title" id="modalEmployeeLabel">
+          Buscar Empleado
+        </h5>
+        <h5 *ngIf="modalClient" class="modal-title" id="modalClientLabel">
+          Buscar Cliente
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- <form [formGroup] = "formValue"> -->
+        <div class="table-responsive">
+          <table class="table w-100">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Ruc</th>
+                <th>Cédula</th>
+                <th>Tipo Persona</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let person of clientsAndEmployees">
+                <td>{{ person.idPersona }}</td>
+                <td>{{ person.nombre }}</td>
+                <td>{{ person.apellido }}</td>
+                <td>{{ person.email }}</td>
+                <td>{{ person.ruc }}</td>
+                <td>{{ person.cedula }}</td>
+                <td>{{ person.tipoPersona }}</td>
+                <td>{{ person.fechaNacimiento }}</td>
+                <td>
+                  <button
+                    class="btn btn-success" data-bs-dismiss="modal"
+                    (click)="setModalOptionSelected(person)"
+                  >
+                    Seleccionar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+        <button type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
