@@ -14,12 +14,17 @@ import {Category} from "../../model/category";
 export class PatientReadComponent implements OnInit {
 
   formValue!: FormGroup;
+  formFilters!: FormGroup;
   patients: Person[] = [];
   config: ConfigPage = new ConfigPage();
   patient: Person = new Person();
+  PatientsSearchName: Person = new Person();
+  PatientsSearchLastName: Person = new Person();
+  filter: any[] = [];
   message: string = "";
   showAdd!: boolean;
   showUpdate!: boolean;
+  banIsFilter!: number;
 
   constructor(private servicePatient: PatientManagementService, private formBuilder: FormBuilder) { }
 
@@ -34,8 +39,17 @@ export class PatientReadComponent implements OnInit {
     tipoPersona : [''],
     fechaNacimiento : ['']
     });
+    this.banIsFilter = 0;
+    this.filter[0] = '';
+    this.filter[1] = '';
     this.config.currentPage=1;
     this.getPatients();
+
+    this.formFilters = this.formBuilder.group({
+      nombre : null,
+      apellido : null
+    });
+
   }
 
   clickAdd(){
@@ -52,6 +66,34 @@ export class PatientReadComponent implements OnInit {
       error => console.log('No se puedieron obtener pacientes')
     )
   }
+
+
+  getFilterPatients(): void {
+    let inicio = this.config.currentPage - 1;
+    inicio = inicio*this.config.itemsPerPage;
+    const filterPatients = this.getArrayFilterPatients();
+    this.servicePatient
+      .getFilterPatients(this.config.itemsPerPage, inicio, filterPatients)
+      .subscribe(
+        (entity) => (this.patients = entity.lista),
+        (error) => console.log('No se pudo obtener lista filtrada de pacientes')
+      );
+  }
+
+  clearFilter(): void {
+    this.formFilters.reset();
+    this.config.currentPage=1;
+    this.banIsFilter=0
+    this.getPatients()
+  }
+
+  getArrayFilterPatients(): any[] {
+    const filterPatients: any[] = [];
+    filterPatients[0] = this.formFilters.controls['nombre'].value?? null;
+    filterPatients[1] = this.formFilters.controls['apellido'].value?? null;
+    return filterPatients;
+  }
+
 
   changePage(page: number){
     this.config.currentPage=page;
