@@ -30,7 +30,9 @@ export class SubcategoriesManagementComponent implements OnInit {
   ngOnInit(): void {
     this.formValue = this.formbuilber.group({
       descripcion: [''],
-      categoria: ['']
+      categoria: [''],
+      filterIdInput:null,
+      filterDescInput:null,
     });
     this.banIsFilter=0;
     this.filter[0]='';
@@ -44,6 +46,7 @@ export class SubcategoriesManagementComponent implements OnInit {
     this.showAdd = true;
     this.showUpdate = false;
   }
+  //funcion para agregar una subcategoria
   saveSubcategory(): void {
     this.subcategory.descripcion=this.formValue.value.descripcion;
     this.subcategory.idCategoria.idCategoria=this.formValue.value.categoria;
@@ -58,6 +61,7 @@ export class SubcategoriesManagementComponent implements OnInit {
       (error) => console.log('error: ' + error)
     );
   }
+  //funcion para obtener todas las subcategorias
   getSubcategories(): void {
     let inicio = this.config.currentPage - 1;
     inicio = inicio * this.config.itemsPerPage;
@@ -68,27 +72,38 @@ export class SubcategoriesManagementComponent implements OnInit {
         (error) => console.log('no se pudieron conseguir las categorias')
       );
   }
+  //funcion para obtener los valores de los filtros
+  getFilter(){
+    return[
+      this.formValue.get('filterIdInput')?.value ?? null,
+      this.formValue.get('filterDescInput')?.value ?? null
+    ];
+  }
+  //funcion para filtrar por id o descripcion
   getFilterSubcategories():void{
     let inicio = this.config.currentPage - 1;
     inicio = inicio * this.config.itemsPerPage;
-    /*this.filter[0]=document.getElementById("filterIdInput");
-    this.filter[1]=document.getElementById("filterDescInput");*/
-
-    if(this.filter[0].length ==0){
-      console.log("El id es null")
-      this.filter[0]=null;
-    }
-    if(this.filter[1].length ==0){
-      console.log("La descripcion es null")
-      this.filter[1]=null;
-    }
+    const filters=this.getFilter();
     this.serviceSubcategory
-    .getFilterSubcategories(this.filter,this.config.itemsPerPage, inicio)
+    .getFilterSubcategories(filters,this.config.itemsPerPage, inicio)
     .subscribe(
       (entity) => (this.subcategories = entity.lista),
       (error) => console.log('no se pudieron conseguir las categorias filtradas')
     );
   }
+  //funcion para paginar
+  filtrar(){
+    this.config.currentPage=1;
+    this.getFilterSubcategories();
+  }
+  //funcion para filtrar por id o descripcion
+  cleanFilters():void {
+    this.config.currentPage=1;
+    this.formValue.reset();
+    this.getSubcategories();
+  }
+
+  //funcion para eliminar una subcategoria
   deleteSubcategory(subcat: Subcategory): void {
     this.serviceSubcategory.deleteSubcategory(subcat.idTipoProducto).subscribe(
       () => {
@@ -98,6 +113,7 @@ export class SubcategoriesManagementComponent implements OnInit {
       (error) => console.log('error: ' + error)
     );
   }
+  //funcion para mostrar los valores de la subcategoria a actualizar
   editSubcategory(subcat: Subcategory): void {
     this.showAdd = false;
     this.showUpdate = true;
@@ -105,6 +121,7 @@ export class SubcategoriesManagementComponent implements OnInit {
     this.formValue.controls['descripcion'].setValue(subcat.descripcion);
     this.formValue.controls['categoria'].setValue(subcat.idCategoria.idCategoria);
   }
+  //funcion para actualizar una subcategoria
   updateSubcategory(): void{
     this.subcategory.descripcion=this.formValue.value.descripcion;
     this.subcategory.idCategoria.idCategoria=this.formValue.value.categoria;
@@ -119,14 +136,10 @@ export class SubcategoriesManagementComponent implements OnInit {
       error => console.log("error: "+error)
     );
   }
+  //funcion para paginar
   changePage(page: number) {
     this.config.currentPage = page;
-    if (this.banIsFilter==1)
-      this.getFilterSubcategories();
-    else if(this.banIsFilter==0)
-      this.filter[0]='';
-      this.filter[1]='';
-      this.getSubcategories();
+    this.getFilterSubcategories();
   }
 
 }

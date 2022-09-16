@@ -9,16 +9,18 @@
     </div>
   </nav>
   <div class="container">
-    <div class="col-xs-1 my-2" align="left">
-      Filtrar por Id Categoría: <input [(ngModel)]="filter[0]" id="filterIdInput">
-    </div>
-    <div class="col-xs-1 my-2" align="left">
-      Filtrar por descripción: <input  [(ngModel)]="filter[1]"id="filterDescInput">
-    </div>
-    <div class="col-xs-1 my-2" align="left">
-      <button class="btn btn-primary  mx-3" (click)="getFilterSubcategories()" (click)="config.currentPage=1; banIsFilter=1">Filtrar</button>
-      <button class="btn btn-primary  mx-3" (click)="getSubcategories()" (click)="config.currentPage=1; banIsFilter=0" onclick="document.getElementById('filterDescInput').value = '';document.getElementById('filterIdInput').value = ''">Quitar Filtros</button>
-    </div>
+    <form [formGroup] = "formValue">
+      <div class="col-xs-1 my-2" align="left">
+        Filtrar por Id Categoría: <input formControlName="filterIdInput">
+      </div>
+      <div class="col-xs-1 my-2" align="left">
+        Filtrar por descripción: <input formControlName="filterDescInput">
+      </div>
+      <div class="col-xs-1 my-2" align="left">
+        <button class="btn btn-primary  mx-3" (click)="filtrar()">Filtrar</button>
+        <button class="btn btn-primary  mx-3" (click)="cleanFilters();">Quitar Filtros</button>
+      </div>
+    </form>
   </div>
   <p *ngIf="message!=''">{{ message }}</p>
   <div class="container text-rigth">
