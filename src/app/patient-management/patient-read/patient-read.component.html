@@ -26,7 +26,7 @@
   </form>
 
   <div class="col-xs-1 my-2" align="left">
-    <button class="btn btn-primary  mx-3" (click)="getFilterPatients(); config.currentPage=1; banIsFilter=1">Filtrar</button>
+    <button class="btn btn-primary  mx-3" (click)="getFilterPatients()">Filtrar</button>
     <button class="btn btn-primary  mx-3" (click)="clearFilter()">Quitar Filtros</button>
   </div>
 </div>
@@ -35,8 +35,6 @@
 
 
 
-<p *ngIf="message!=''">{{ message }}</p>
-
 <div class="container text-rigth">
   <div class="row">
     <div class="col-md">
@@ -44,6 +42,7 @@
         <table class="table table-striped caption-top">
           <caption>
             Lista de pacientes
+            <p *ngIf="message!=''">{{ message }}</p>
           </caption>
          <thead>
           <tr>
@@ -119,7 +118,7 @@
             <input type="text" formControlName="tipoPersona" class="form-control"  [(ngModel)]="patient.tipoPersona" >
 
             <label for="exampleInputEmail1" class="form-label">Fecha de Nacimiento (YYYY-MM-DD HH:MM:SS)</label>
-            <input type="date" formControlName="fechaNacimiento" class="form-control"  [(ngModel)]="patient.fechaNacimiento" >
+            <input type="text" formControlName="fechaNacimiento" class="form-control"  [(ngModel)]="patient.fechaNacimiento" >
 
           </div>
         </form>

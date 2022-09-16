@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CategoryReadComponent } from './category-management/category-read/category-read.component';
@@ -13,6 +12,8 @@ import { SubcategoryManagementService } from './service/subcategory-management.s
 import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
 import { PatientReadComponent } from './patient-management/patient-read/patient-read.component';
 import {PatientManagementService} from "./service/patient-management.service";
+import { AttentionScheduleComponent } from './attention-schedule/attention-schedule.component';
+import { AttentionScheduleService } from './service/attention-schedule.service';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {PatientManagementService} from "./service/patient-management.service";
     CategoryCreateComponent,
     SubcategoriesManagementComponent,
     MenuComponent,
-    PatientReadComponent
+    PatientReadComponent,
+    AttentionScheduleComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import {PatientManagementService} from "./service/patient-management.service";
   providers: [
     CategoryManagementService,
     SubcategoryManagementService,
-    PatientManagementService
+    PatientManagementService,
+    AttentionScheduleService
   ],
   bootstrap: [AppComponent]
 })

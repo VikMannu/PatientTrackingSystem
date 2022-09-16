@@ -69,6 +69,7 @@ export class PatientReadComponent implements OnInit {
   getFilterPatients(): void {
     let inicio = this.config.currentPage - 1;
     inicio = inicio*this.config.itemsPerPage;
+    this.banIsFilter = 1;
     const filterPatients = this.getArrayFilterPatients();
     this.servicePatient
       .getFilterPatients(this.config.itemsPerPage, inicio, filterPatients)
