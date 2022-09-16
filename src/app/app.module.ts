@@ -11,6 +11,7 @@ import { MenuComponent } from './menu/menu.component';
 import { SubcategoriesManagementComponent } from './subcategories-management/subcategories-management.component';
 import { SubcategoryManagementService } from './service/subcategory-management.service';
 import { ProductPresentationComponent } from './product-presentation/product-presentation.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ProductPresentationComponent } from './product-presentation/product-pre
     CategoryReadComponent,
     SubcategoriesManagementComponent,
     ProductPresentationComponent,
-    MenuComponent
+    MenuComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

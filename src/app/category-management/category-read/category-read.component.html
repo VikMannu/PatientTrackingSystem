@@ -47,15 +47,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 *ngIf="showAdd" class="modal-title" id="exampleModalLabel">Agregar Categoría</h5>
-        <h5 *ngIf="showUpdate" class="modal-title" id="exampleModalLabel">Editar Categoría</h5>
+        <h5 *ngIf="showAdd" class="modal-title" id="agregar">Agregar Categoría</h5>
+        <h5 *ngIf="showUpdate" class="modal-title" id="editar">Editar Categoría</h5>
 
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form [formGroup] = "formValue">
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Descripción</label>
+            <label class="form-label">Descripción</label>
             <input type="text" formControlName="descripcion" class="form-control">
           </div>
         </form>
