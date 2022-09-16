@@ -13,6 +13,7 @@ import { SubcategoryManagementService } from './service/subcategory-management.s
 import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
 import { PatientReadComponent } from './patient-management/patient-read/patient-read.component';
 import {PatientManagementService} from "./service/patient-management.service";
+import { ReservaComponent } from './reserva/reserva.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {PatientManagementService} from "./service/patient-management.service";
     CategoryCreateComponent,
     SubcategoriesManagementComponent,
     MenuComponent,
-    PatientReadComponent
+    PatientReadComponent,
+    ReservaComponent
   ],
   imports: [
     BrowserModule,
