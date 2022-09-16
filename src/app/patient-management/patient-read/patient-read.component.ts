@@ -3,8 +3,7 @@ import {PatientManagementService} from "../../service/patient-management.service
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Person} from "../../model/person";
 import {ConfigPage} from "../../model/configPage";
-import {Observable} from "rxjs";
-import {Category} from "../../model/category";
+
 
 @Component({
   selector: 'app-patient-read',
@@ -18,8 +17,6 @@ export class PatientReadComponent implements OnInit {
   patients: Person[] = [];
   config: ConfigPage = new ConfigPage();
   patient: Person = new Person();
-  PatientsSearchName: Person = new Person();
-  PatientsSearchLastName: Person = new Person();
   filter: any[] = [];
   message: string = "";
   showAdd!: boolean;
@@ -47,7 +44,8 @@ export class PatientReadComponent implements OnInit {
 
     this.formFilters = this.formBuilder.group({
       nombre : null,
-      apellido : null
+      apellido : null,
+      soloUsuariosDelSistema : null
     });
 
   }
@@ -91,6 +89,7 @@ export class PatientReadComponent implements OnInit {
     const filterPatients: any[] = [];
     filterPatients[0] = this.formFilters.controls['nombre'].value?? null;
     filterPatients[1] = this.formFilters.controls['apellido'].value?? null;
+    filterPatients[2] = this.formFilters.controls['soloUsuariosDelSistema'].value?? null;
     return filterPatients;
   }
 

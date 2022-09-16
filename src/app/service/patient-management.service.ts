@@ -17,17 +17,17 @@ export class PatientManagementService {
   getFilterPatients(
     itemsPerPage: number,
     inicio: number,
-    filter = [null, null]
+    filter = [null, null, null]
   ): Observable<DataList<Person>> {
     const encode = encodeURIComponent(
       `{
         "nombre": ${filter[0] != null ? `"${filter[0]}"` : null},
-        "apellido": ${filter[1] != null ? `"${filter[1]}"` : null}
+        "apellido": ${filter[1] != null ? `"${filter[1]}"` : null},
+        "soloUsuariosDelSistema": ${filter[2] != null ? `"${filter[2]}"` : null}
       }`
     );
     console.log('Query enviado: ' + encode);
     const url = `?like=S&ejemplo=${encode}&inicio=${inicio}&cantidad=${itemsPerPage}&orderBy=idPersona&orderDir=asc`;
-    console.log('URL: ' + url);
     return this.http.get<DataList<Person>>(this.api+url);
 
   }
