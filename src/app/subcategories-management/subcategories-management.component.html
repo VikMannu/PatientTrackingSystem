@@ -8,6 +8,7 @@
       </div>
     </div>
   </nav>
+  <p *ngIf="message!=''">{{ message }}</p>
   <div class="container">
     <form [formGroup] = "formValue">
       <div class="col-xs-1 my-2" align="left">
