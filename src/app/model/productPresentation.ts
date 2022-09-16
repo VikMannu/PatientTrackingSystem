@@ -1,8 +1,12 @@
 import { Product } from "./product";
 
-export class PresentationProducto {
+export class ProductPresentation {
   idPresentacionProducto!: number;
-  nombre!: string;
-  descripcion!: string;
+  codigo!:number;
+  flagServicio!: string;
   idProducto= new Product();
+  nombre!: string
+  existenciaProducto!: any
+  tamanho!:number;
+  descripcion!: string;
 }

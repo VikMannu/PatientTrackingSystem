@@ -1,10 +1,10 @@
 <nav class="navbar navbar-ligth bg-primary">
 <div class="container-fluid">
-    <h1 style="color:aliceblue">Categorías</h1>
-    <div class="d-flex">
-      <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear Categoria</button>
-      <a class="btn btn-primary" routerLink="" role="button">Volver</a>
+    <h2 style="color:aliceblue">Categorías</h2>
+    <div class="d-grid gap-2 d-md-block">
+      <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear</button>
       <a class="btn btn-primary" routerLink="/subcategory-management" role="button">Subcategorias</a>
+      <a class="btn btn-primary" routerLink="" role="button">Volver</a>
     </div>
   </div>
 </nav>
@@ -56,7 +56,7 @@
         <form [formGroup] = "formValue">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Descripción</label>
-            <input type="text" formControlName="descripcion" class="form-control"  [(ngModel)]="category.descripcion" >
+            <input type="text" formControlName="descripcion" class="form-control">
           </div>
         </form>
       </div>
@@ -71,7 +71,7 @@
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-end">
     <li class="page-item"><a *ngIf="config.currentPage>1" class="page-link" (click)="changePage(config.currentPage-1)">Anterior</a></li>
-    <li class="page-item"><a class="page-link" (click)="changePage(config.currentPage-1)">{{config.currentPage}} </a></li>
+    <li class="page-item"><a class="page-link active" (click)="changePage(config.currentPage-1)">{{config.currentPage}} </a></li>
     <li class="page-item"><a *ngIf="categories.length>1"class="page-link" (click)="changePage(config.currentPage+1)">Siguiente</a></li>
   </ul>
 </nav>

@@ -10,6 +10,7 @@ import {CategoryManagementService} from "./service/category-management/category-
 import { MenuComponent } from './menu/menu.component';
 import { SubcategoriesManagementComponent } from './subcategories-management/subcategories-management.component';
 import { SubcategoryManagementService } from './service/subcategory-management.service';
+import { ProductPresentationComponent } from './product-presentation/product-presentation.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { SubcategoryManagementService } from './service/subcategory-management.s
     AppComponent,
     CategoryReadComponent,
     SubcategoriesManagementComponent,
+    ProductPresentationComponent,
     MenuComponent
   ],
   imports: [

@@ -1,12 +1,25 @@
 <nav class="navbar navbar-ligth bg-primary">
   <div class="container-fluid">
       <h1 style="color:aliceblue">Tipo de Productos</h1>
-      <div class="d-flex">
+      <div class="d-grid gap-2 d-md-block">
         <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear</button>
+        <a class="btn btn-primary mx-3" routerLink="/product-presentation" role="button">Productos</a>
         <a class="btn btn-primary" routerLink="/category-read" role="button">Volver</a>
       </div>
     </div>
   </nav>
+  <div class="container">
+    <div class="col-xs-1 my-2" align="left">
+      Filtrar por Id Categoría: <input [(ngModel)]="filter[0]" id="filterIdInput">
+    </div>
+    <div class="col-xs-1 my-2" align="left">
+      Filtrar por descripción: <input  [(ngModel)]="filter[1]"id="filterDescInput">
+    </div>
+    <div class="col-xs-1 my-2" align="left">
+      <button class="btn btn-primary  mx-3" (click)="getFilterSubcategories()" (click)="config.currentPage=1; banIsFilter=1">Filtrar</button>
+      <button class="btn btn-primary  mx-3" (click)="getSubcategories()" (click)="config.currentPage=1; banIsFilter=0" onclick="document.getElementById('filterDescInput').value = '';document.getElementById('filterIdInput').value = ''">Quitar Filtros</button>
+    </div>
+  </div>
   <p *ngIf="message!=''">{{ message }}</p>
   <div class="container text-rigth">
     <div class="row">
@@ -31,8 +44,10 @@
                 <td>{{ p.descripcion }}</td>
                 <td>{{ p.idCategoria.idCategoria }}</td>
                 <td>
-                  <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editSubcategory(p)">Editar</button>
-                  <button class="btn btn-danger mx-3" (click)="deleteSubcategory(p)">Eliminar</button>
+                  <div class="d-grid gap-2 d-md-block">
+                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editSubcategory(p)">Editar</button>
+                    <button class="btn btn-danger mx-3" (click)="deleteSubcategory(p)">Eliminar</button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -71,10 +86,10 @@
       </div>
     </div>
   </div>
-  <nav aria-label="Page navigation example">
+  <nav aria-label="Page navigation example" >
     <ul class="pagination justify-content-end mx-4">
       <li class="page-item"><a *ngIf="config.currentPage>1" class="page-link" (click)="changePage(config.currentPage-1)">Anterior</a></li>
-      <li class="page-item"><a class="page-link" (click)="changePage(config.currentPage-1)">{{config.currentPage}} </a></li>
+      <li class="page-item"><a class="page-link active">{{config.currentPage}} </a></li>
       <li class="page-item"><a *ngIf="subcategories.length>1"class="page-link" (click)="changePage(config.currentPage+1)">Siguiente</a></li>
     </ul>
   </nav>
