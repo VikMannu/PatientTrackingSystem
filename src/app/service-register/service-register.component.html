@@ -157,8 +157,14 @@
           <td>{{ service.idFichaClinica.idTipoProducto.descripcion }}</td>
 
           <td class="d-flex gap-2">
-            <button class="btn btn-warning text-white">Editar Servicion</button>
-            <button class="btn btn-info text-white">ver</button>
+            <button
+              class="btn btn-warning text-white"
+              (click)="setService(service.idFichaClinica)"
+              data-bs-toggle="modal"
+              data-bs-target="#agregarDetalleModal"
+            >
+              Ver/Editar Servicion
+            </button>
           </td>
         </tr>
         <tr *ngIf="services.length == 0">
@@ -537,6 +543,143 @@
           >
             Guardar
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AGREGAR DETALLE MODAL -->
+
+<div
+  class="modal fade"
+  id="agregarDetalleModal"
+  tabindex="-1"
+  aria-labelledby="agregarDetalleModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalClientLabel">Agregar Detalle</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- <form [formGroup] = "formValue"> -->
+
+        <div class="table-responsive">
+          <form [formGroup]="agregarDetalleForm">
+            <div class="row">
+              <h2>Datos</h2>
+              <div class="col col-md-12">
+                <div class="form-group">
+                  <label for="idFechaClinica">Fecha</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="idFechaClinica"
+                    [value]="fichaActiva.fechaHora"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Empleado</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="fichaActiva.idEmpleado.idPersona"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Cliente</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="fichaActiva.idCliente.idPersona"
+                  />
+                </div>
+              </div>
+
+              <div class="col-12 my-2 py-5">
+                <div class="form-group">
+                  <label for="idFichaClinica">Observacion</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="idObservacion"
+                    [value]="fichaActiva.observacion"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <table class="table w-100">
+              <thead>
+                <tr>
+                  <th>Id Ficha</th>
+                  <th>Fecha Categoria</th>
+                  <th>Subcategoria</th>
+
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ fichaActiva.idFichaClinica }}</td>
+                  <td>{{ fichaActiva.fechaHora }}</td>
+                  <td>
+                    {{ fichaActiva.idTipoProducto.idCategoria.descripcion }}
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+        
+        <div class="col-12 my-5">
+          <div class="form-group">
+            <label class="form-label" for="">Categoria</label>
+            <input class="form-control" type="text" placeholder="ID">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Subcategoria</label>
+            <input class="form-control" type="text" placeholder="ID">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Tipo de Servicio</label>
+            <input class="form-control" type="text" placeholder="ID">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Precio</label>
+            <input class="form-control" type="text" placeholder="1000" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Cantidad</label>
+            <input class="form-control" type="text" placeholder="5" >
+          </div>
+
+          <button class="btn btn-primary my-1" onclick="alert('El servidor se encuentra en mantenimiento, intente mas tarde')">Agregar Detalle</button>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cerrar
+          </button>
+          
         </div>
       </div>
     </div>
