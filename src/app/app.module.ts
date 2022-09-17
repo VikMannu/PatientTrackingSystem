@@ -10,7 +10,8 @@ import {CategoryManagementService} from "./service/category-management/category-
 import { MenuComponent } from './menu/menu.component';
 import { SubcategoriesManagementComponent } from './subcategories-management/subcategories-management.component';
 import { SubcategoryManagementService } from './service/subcategory-management.service';
-import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
+import { ProductPresentationComponent } from './product-presentation/product-presentation.component';
+import { LoginComponent } from './login/login.component';
 import { ServiceRegisterComponent } from './service-register/service-register.component';
 import { ServiceRegisterService } from './service/service-register/service-register.service';
 import { PatientManagementService } from './service/patient-management.service';
@@ -21,10 +22,11 @@ import { ClinicalRecordService } from './service/clinical-record.service';
   declarations: [
     AppComponent,
     CategoryReadComponent,
-    CategoryCreateComponent,
     SubcategoriesManagementComponent,
+    ProductPresentationComponent,
     MenuComponent,
-    ServiceRegisterComponent
+    ServiceRegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

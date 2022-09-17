@@ -1,0 +1,100 @@
+<nav class="navbar navbar-ligth bg-primary">
+  <div class="container-fluid">
+      <h1 style="color:aliceblue">Productos</h1>
+      <div class="d-grid gap-2 d-md-block">
+      <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear</button>
+
+        <a class="btn btn-primary" routerLink="/subcategory-management" role="button">Volver</a>
+      </div>
+    </div>
+  </nav>
+  <p *ngIf="message!=''">{{ message }}</p>
+  <div class="container text-rigth">
+    <form [formGroup] = "formValue">
+      <div class="col-xs-1 my-2" align="left">
+        Filtrar por Id tipo producto: <input formControlName="filterIdInput">
+      </div>
+      <div class="col-xs-1 my-2" align="left">
+        Filtrar por nombre: <input formControlName="filterNameInput">
+      </div>
+      <div class="col-xs-1 my-2" align="left">
+        <button class="btn btn-primary  mx-3" (click)="filtrar()">Filtrar</button>
+        <button class="btn btn-primary  mx-3" (click)="cleanFilters();">Quitar Filtros</button>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-md">
+        <div class="table-responsive">
+          <table class="table table-striped caption-top">
+            <caption>
+              Lista de productos
+            </caption>
+
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Id Producto</th>
+                <th scope="col">Id Tipo Producto</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of products">
+                <td>{{ p.idPresentacionProducto }}</td>
+                <td>{{ p.nombre }}</td>
+                <td>{{ p.descripcion }}</td>
+                <td>{{ p.idProducto.idProducto }}</td>
+                <td>{{ p.idProducto.idTipoProducto.idTipoProducto }}</td>
+                <td>
+                  <div class="d-grid gap-2 d-md-block">
+                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editProduct(p)">Editar</button>
+                    <button class="btn btn-danger mx-3" (click)="deletePresentation(p)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="showAdd" class="modal-title" id="agregar">Agregar Producto</h5>
+        <h5 *ngIf="showUpdate" class="modal-title" id="editar">Editar Producto</h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup] = "formValue">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Nombre</label>
+            <input type="text" formControlName="nombre" class="form-control">
+            <label for="exampleInputEmail1" class="form-label">Descripcion</label>
+            <input type="text" formControlName="descripcion" class="form-control">
+            <label for="exampleInputEmail1" class="form-label">Id Producto</label>
+            <input type="text" formControlName="idProducto" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancel" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" *ngIf="showAdd" class="btn btn-primary" (click)="saveProduct()">Agregar</button>
+        <button type="button" *ngIf="showUpdate" class="btn btn-primary" (click)="updatePresentation()">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item"><a *ngIf="config.currentPage>1" class="page-link" (click)="changePage(config.currentPage-1)">Anterior</a></li>
+    <li class="page-item"><a class="page-link active">{{config.currentPage}} </a></li>
+    <li class="page-item"><a *ngIf="products.length>1"class="page-link" (click)="changePage(config.currentPage+1)">Siguiente</a></li>
+  </ul>
+</nav>
