@@ -1,6 +1,10 @@
+
 <div class="card mx-2 pt-2">
   <div class="card-header">
     <h2>Horarios Excepcionales</h2>
+    <div class="d-flex justify-content-end" >
+      <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar</button>
+    </div>
   </div>
   <div class="card-body">
     <h4>Filtros de busqueda</h4>
@@ -10,34 +14,16 @@
       <div class="row filters">
         <div class="col-sm-12 col-md-6">
           <label for="date-start" class="form-label">Fecha</label>
-          <input formControlName="dateStart" type="date" id="date-start" class="form-control" />
+          <input formControlName="dateStart" placeholder="AAAA-MM-DD" type="text" id="date-start" class="form-control" />
         </div>
+        <div class="col-sm-12 col-md-6" align="left">
+          <label for="date-start" class="form-label">Id Empleado</label>
+          <input class="form-control" formControlName="idEmployee">
+        </div>
+
 
         <!--Modal funtionality  -->
 
-        <div class="col-sm-12 col-md-6">
-          <input
-            type="hidden"
-            formControlName="idEmployee"
-            id="empleado"
-            class="form-control"
-          />
-          <label for="empleado" class="form-label">Empleado</label>
-          <input
-            type="text"
-            formControlName="nameEmployee"
-            id="empleado-name"
-            class="form-control"
-          />
-          <button
-
-            class="btn btn-primary my-1 w-100"
-            data-bs-toggle="modal"
-            data-bs-target="#genericModal"
-          >
-            Buscar
-          </button>
-        </div>
         <div class="d-flex gap-2 my-2 justify-content-end">
           <button class="btn btn-primary" id="btn-search" (click)="filtrar()" >Buscar</button>
           <button
@@ -83,7 +69,7 @@
                 <td>{{horario.intervaloMinutos}}</td>
                 <td>
                   <div class="d-grid gap-2 d-md-block">
-                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" >Editar</button>
+                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editSchedule(horario)">Editar</button>
                     <button class="btn btn-danger mx-3" >Eliminar</button>
                   </div>
                 </td>
@@ -99,75 +85,54 @@
 
 
 
-<!-- Modals -->
-<div
-  class="modal fade"
-  id="genericModal"
-  tabindex="-1"
-  aria-labelledby="genericModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-fullscreen modal-fullscreen-md-down">
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 *ngIf="modalEmployee" class="modal-title" id="modalEmployeeLabel">
-          Buscar Empleado
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <h5 *ngIf="showAdd" class="modal-title" id="agregarPacienteLabel">Agregar Horario</h5>
+        <h5 *ngIf="showUpdate" class="modal-title" id="exampleModalLabel">Editar Horario</h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- <form [formGroup] = "formValue"> -->
-        <div class="table-responsive">
-          <table class="table w-100">
-            <thead>
-            <tr>
-              <th>Id</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Email</th>
-              <th>Ruc</th>
-              <th>Cédula</th>
-              <th>Tipo Persona</th>
-              <th>Fecha de Nacimiento</th>
-              <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let person of Employees">
-              <td>{{ person.idPersona }}</td>
-              <td>{{ person.nombre }}</td>
-              <td>{{ person.apellido }}</td>
-              <td>{{ person.email }}</td>
-              <td>{{ person.ruc }}</td>
-              <td>{{ person.cedula }}</td>
-              <td>{{ person.tipoPersona }}</td>
-              <td>{{ person.fechaNacimiento }}</td>
-              <td>
-                <button
-                  class="btn btn-success" data-bs-dismiss="modal"
-                  (click)="setModalOptionSelected(person)"
-                >
-                  Seleccionar
-                </button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+        <form [formGroup] = "formValue">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Fecha</label>
+            <input type="text" formControlName="fechaCadena" placeholder="AAAAMMDD" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Hora Apertura Cadena</label>
+            <input type="text" formControlName="horaAperturaCadena" placeholder="HHMM" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Hora Cierre Cadena</label>
+            <input type="text" formControlName="horaCierreCadena" placeholder="HHMM" class="form-control">
+
+            <label for="exampleInputEmail1" class="form-label">Intervalo Minutos</label>
+            <input type="text" formControlName="intervaloMinutos" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Id Empleado</label>
+            <input type="text" formControlName="idEmpleado" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Flag es habilitar</label>
+            <input type="text" formControlName="flagEsHabilitar" placeholder="S" class="form-control" >
+
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Cerrar
-        </button>
+        <button type="button" class="btn btn-secondary" id="cancel" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" *ngIf="showAdd" class="btn btn-primary" (click)="saveSchedule()">Agregar</button>
+        <button type="button" *ngIf="showUpdate" class="btn btn-primary" (click)="updateSchedule()">Actualizar</button>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
 
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-end mx-4">

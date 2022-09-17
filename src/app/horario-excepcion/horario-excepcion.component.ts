@@ -5,6 +5,8 @@ import {PatientManagementService} from "../service/patient-management.service";
 import {HorarioExcepcion} from "../model/horarioExcepcion";
 import {ConfigPage} from "../model/configPage";
 import {HorarioExcepcionService} from "../service/horario-excepcion.service";
+import {HorarioAtencion} from "../model/horarioAtencion";
+import {Observable, tap} from "rxjs";
 
 @Component({
   selector: 'app-horario-excepcion',
@@ -18,7 +20,10 @@ export class HorarioExcepcionComponent implements OnInit {
   modalEmployee:boolean =false;
   Employees: Person[] =[];
   horariosExcepciones: HorarioExcepcion[] = [];
+  horarioExcepcion: HorarioExcepcion = new HorarioExcepcion();
   message: string = "";
+  showAdd!: boolean;
+  showUpdate!: boolean;
 
   constructor(
     private horaExcepcionService: HorarioExcepcionService,
@@ -29,8 +34,14 @@ export class HorarioExcepcionComponent implements OnInit {
   ngOnInit(): void {
     this.formValue = this.formbuilber.group({
       idEmployee: null,
-      nameEmployee: null,
-      dateStart: null
+      dateStart: null,
+      idEmpleado: null,
+      idHorarioExcepcion: null,
+      fechaCadena: null,
+      horaAperturaCadena: null,
+      horaCierreCadena: null,
+      intervaloMinutos: null,
+      flagEsHabilitar: null
     })
     this.config.currentPage = 1;
     this.getClientAndEmployee();
@@ -38,10 +49,16 @@ export class HorarioExcepcionComponent implements OnInit {
     console.log(this.horariosExcepciones);
   }
 
+  clickAdd(){
+    this.formValue.reset();
+    this.showAdd = true;
+    this.showUpdate = false;
+  }
+
   getClientAndEmployee():void{
     this.patientsService.getAllPersons().subscribe((res:any)=>{
       if(res?.lista.length > 0){
-        this.Employees =res.lista
+        this.Employees = res.lista
       }
       // console.log(this.clientsAndEmployees);
     });
@@ -74,12 +91,28 @@ export class HorarioExcepcionComponent implements OnInit {
   }
 
 
-  setModalOptionSelected(person:Person){
+  saveSchedule(): void {
 
-      this.formValue.controls['idEmployee'].setValue(person.idPersona);
-      this.formValue.controls['nameEmployee'].setValue(person.nombre);
+    this.horarioExcepcion.fechaCadena = this.formValue.value.fechaCadena;
+    this.horarioExcepcion.horaAperturaCadena = this.formValue.value.horaAperturaCadena;
+    this.horarioExcepcion.horaCierreCadena = this.formValue.value.horaCierreCadena;
+    this.horarioExcepcion.intervaloMinutos = this.formValue.value.intervaloMinutos;
+    this.horarioExcepcion.flagEsHabilitar = this.formValue.value.flagEsHabilitar;
+    this.horarioExcepcion.idEmpleado.idPersona = this.formValue.value.idEmpleado;
 
+    console.log(this.horarioExcepcion);
+    this.horaExcepcionService.createExceptionSchedule(this.horarioExcepcion).subscribe(
+      () => {
+        this.message='Horario Excepcional creado exitosamente';
+        let ref=document.getElementById('cancel');
+        ref?.click();
+        this.formValue.reset();
+        this.getExceptionSchedule();
+      },
+      error => console.log("error: "+error)
+    )
   }
+
 
 
   search():void{
@@ -108,4 +141,40 @@ export class HorarioExcepcionComponent implements OnInit {
     ]
   }
 
+  editSchedule(horario: HorarioExcepcion): void {
+    this.showAdd = false;
+    this.showUpdate = true;
+
+    this.horarioExcepcion.idHorarioExcepcion = horario.idHorarioExcepcion;
+    this.formValue.controls['fechaCadena'].setValue(horario.fechaCadena);
+    this.formValue.controls['horaAperturaCadena'].setValue(horario.horaAperturaCadena);
+    this.formValue.controls['horaCierreCadena'].setValue(horario.horaCierreCadena);
+    this.formValue.controls['intervaloMinutos'].setValue(horario.intervaloMinutos);
+    this.formValue.controls['idEmpleado'].setValue(horario.idEmpleado.idPersona);
+    this.formValue.controls['flagEsHabilitar'].setValue(horario.flagEsHabilitar);
+
+  }
+
+  updateSchedule(): void {
+
+    this.horarioExcepcion.fechaCadena = this.formValue.value.fechaCadena;
+    this.horarioExcepcion.horaAperturaCadena = this.formValue.value.horaAperturaCadena;
+    this.horarioExcepcion.horaCierreCadena = this.formValue.value.horaCierreCadena;
+    this.horarioExcepcion.intervaloMinutos = this.formValue.value.intervaloMinutos;
+    this.horarioExcepcion.flagEsHabilitar = this.formValue.value.flagEsHabilitar;
+    this.horarioExcepcion.idEmpleado.idPersona = this.formValue.value.idEmpleado;
+
+    this.horaExcepcionService.updateExceptionalSchedule(this.horarioExcepcion).subscribe(
+      () => {
+        this.message='Horario actualizado exitosamente';
+        let ref=document.getElementById('cancel');
+        ref?.click();
+        this.formValue.reset();
+        this.getExceptionSchedule();
+      },
+      error => console.log("error: "+error)
+    )
+  }
+
 }
+

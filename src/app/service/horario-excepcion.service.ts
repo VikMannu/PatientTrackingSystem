@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Observable, tap} from "rxjs";
 import {DataList} from "../model/dataList";
 import {HorarioExcepcion} from "../model/horarioExcepcion";
+import {HorarioAtencion} from "../model/horarioAtencion";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,34 @@ export class HorarioExcepcionService {
     console.log('Query enviado: ' + encode);
     const url = `?ejemplo=${encode}&inicio=${inicio}&cantidad=${itemsPerPage}&orderBy=idHorarioExcepcion&orderDir=asc`;
     return this.http.get<DataList<HorarioExcepcion>>(this.api+url);
+  }
+
+
+  updateExceptionalSchedule(h: HorarioExcepcion): Observable<HorarioExcepcion>{
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'usuario': 'usuario1' });
+    let options = { headers: headers };
+    return this.http.put<HorarioExcepcion>(this.api, h, options).pipe(
+      tap({
+        next: (data) => console.log(`updated id=${h.idHorarioExcepcion}`),
+        error: (error) => console.log('error: ' + error)
+      })
+    );
+  }
+
+
+  createExceptionSchedule(h: any): Observable<HorarioExcepcion>{
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'usuario': 'usuario1' });
+    let options = { headers: headers };
+    return this.http.post<HorarioExcepcion>(this.api, h, options).pipe(
+      tap({
+        next: (data) => console.log(`creado id=${h.idHorarioExcepcion}`),
+        error: (error) => console.log('error: ' + error)
+      })
+    );
   }
 
 }
