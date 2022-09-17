@@ -24,6 +24,7 @@ export class ProductPresentationComponent implements OnInit {
     this.formValue=this.forbuilber.group({
       nombre : [''],
       idProducto : [''],
+      descripcion : [''],
       filterNameInput : null,
       filterIdInput : null
     });
@@ -69,10 +70,47 @@ export class ProductPresentationComponent implements OnInit {
     this.product.codigo=this.products[this.products.length - 1].codigo + 1;
     this.product.nombre=this.formValue.value.nombre;
     this.product.idProducto.idProducto=this.formValue.value.idProducto;
+    this.product.descripcion=this.formValue.value.descripcion;
     console.log(this.product);
     this.serviceProductPresentation.createProduct(this.product).subscribe(
       () => {
         this.message='Agregado exitosamente'
+        let ref=document.getElementById('cancel')
+        ref?.click();
+        this.formValue.reset();
+        this.getProducts();
+      },
+      error => console.log("error: "+error)
+    );
+  }
+
+  //funcion para eliminar un productos
+  deletePresentation(pres: ProductPresentation): void {
+    this.serviceProductPresentation.deletePres(pres.idPresentacionProducto).subscribe(
+      () => {
+        this.message = 'Eliminado exitosamente';
+        this.getProducts();
+      },
+      (error) => console.log('error: ' + error)
+    );
+  }
+  //funcion para mostrar los valores de la presentacion a actualizar
+  editProduct(prod: ProductPresentation): void {
+    this.showAdd = false;
+    this.showUpdate = true;
+    this.product.idPresentacionProducto=prod.idPresentacionProducto;
+    this.formValue.controls['nombre'].setValue(prod.nombre);
+    this.formValue.controls['descripcion'].setValue(prod.descripcion);
+    this.formValue.controls['idProducto'].setValue(prod.idProducto.idProducto);
+  }
+  //funcion para actualizar una producto
+  updatePresentation(): void{
+    this.product.nombre=this.formValue.value.nombre;
+    this.product.descripcion=this.formValue.value.descripcion;
+    this.product.idProducto.idProducto=this.formValue.value.idProducto;
+    this.serviceProductPresentation.updatePres(this.product).subscribe(
+      () => {
+        this.message='Actualizado exitosamente'
         let ref=document.getElementById('cancel')
         ref?.click();
         this.formValue.reset();

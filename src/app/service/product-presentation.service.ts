@@ -35,4 +35,27 @@ export class ProductPresentationService {
       )
     );
   }
+
+  //eliminar la presentacion de un producto
+  deletePres(idPresentacionProducto: number): Observable<ProductPresentation> {
+    const url = `${this.api}/${idPresentacionProducto}`;
+    return this.http.delete<ProductPresentation>(url).pipe(
+      tap(
+        // Log the result or error
+        (data) => console.log(`Eliminado id=${idPresentacionProducto}`),
+        (error) => console.log('error: ' + error)
+      )
+    );
+  }
+  //actualizar la presentacion de un producto
+  updatePres(c: ProductPresentation): Observable<ProductPresentation> {
+    const url = `${this.api}/${c.idPresentacionProducto}`;
+    return this.http.put<ProductPresentation>(this.api, c).pipe(
+      tap(
+        // Log the result or error
+        (data) => console.log('actualizado ' + data),
+        (error) => console.log('error: ' + error)
+      )
+    );
+  }
 }

@@ -2,8 +2,8 @@
   <div class="container-fluid">
       <h1 style="color:aliceblue">Productos</h1>
       <div class="d-grid gap-2 d-md-block">
-        <!--<button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear</button>
-  -->
+      <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear</button>
+
         <a class="btn btn-primary" routerLink="/subcategory-management" role="button">Volver</a>
       </div>
     </div>
@@ -49,8 +49,8 @@
                 <td>{{ p.idProducto.idTipoProducto.idTipoProducto }}</td>
                 <td>
                   <div class="d-grid gap-2 d-md-block">
-                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</button>
-                    <button class="btn btn-danger mx-3">Eliminar</button>
+                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editProduct(p)">Editar</button>
+                    <button class="btn btn-danger mx-3" (click)="deletePresentation(p)">Eliminar</button>
                   </div>
                 </td>
               </tr>
@@ -76,6 +76,8 @@
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Nombre</label>
             <input type="text" formControlName="nombre" class="form-control">
+            <label for="exampleInputEmail1" class="form-label">Descripcion</label>
+            <input type="text" formControlName="descripcion" class="form-control">
             <label for="exampleInputEmail1" class="form-label">Id Producto</label>
             <input type="text" formControlName="idProducto" class="form-control">
           </div>
@@ -84,7 +86,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="cancel" data-bs-dismiss="modal">Cerrar</button>
         <button type="button" *ngIf="showAdd" class="btn btn-primary" (click)="saveProduct()">Agregar</button>
-        <button type="button" *ngIf="showUpdate" class="btn btn-primary">Actualizar</button>
+        <button type="button" *ngIf="showUpdate" class="btn btn-primary" (click)="updatePresentation()">Actualizar</button>
       </div>
     </div>
   </div>
