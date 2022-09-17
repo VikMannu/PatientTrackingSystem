@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { DataList } from '../../model/dataList';
@@ -30,14 +30,26 @@ export class ServiceRegisterService {
     const encodeUrl = encodeURIComponent(
       `{
         "fechaDesdeCadena":${filters[0] != null ? `"${filters[0]}"`:null},
-        "fechaHastaCadena":${filters[1] != null ? `"${filters[0]}"`:null},
+        "fechaHastaCadena":${filters[1] != null ? `"${filters[1]}"`:null},
         "idFichaClinica":{"idCliente":{"idPersona":${filters[2]}}},
         "idEmpleado":{"idPersona":${filters[3]}}
       }`
       )
-    console.log('url',`${environment.baseUrlApi}/${this.serviceUrl}?ejemplo=${encodeUrl}`);
+    
     
     return this.http.get<DataList<Service>>(`${environment.baseUrlApi}/${this.serviceUrl}?ejemplo=${encodeUrl}`)
+  }
+
+  storeService(idFichaClinica:number,observacion = null):Observable<Service>{
+    //getting headers
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'usuario':'usuario1'
+    })
+    //building body of the post request
+    const body = {idFichaClinica:{idFichaClinica:idFichaClinica},observacion:observacion}
+    
+    return this.http.post<Service>(`${environment.baseUrlApi}/${this.serviceUrl}`,body,{headers:headers});
   }
 
 
