@@ -25,7 +25,7 @@ import { AttentionScheduleService } from './service/attention-schedule.service';
     SubcategoriesManagementComponent,
     MenuComponent,
     PatientReadComponent,
-    ReservaComponent
+    ReservaComponent,
     PatientReadComponent,
     AttentionScheduleComponent
   ],
