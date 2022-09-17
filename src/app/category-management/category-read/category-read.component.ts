@@ -36,6 +36,7 @@ export class CategoryReadComponent implements OnInit {
     this.showUpdate=false;
   }
   saveCategory(): void{
+    this.category.descripcion=this.formValue.value.descripcion;
     this.serviceCategory.createCategory(this.category).subscribe(
       () => {
         this.message='Agregado exitosamente'
@@ -55,8 +56,8 @@ export class CategoryReadComponent implements OnInit {
       error => console.log('no se pudieron conseguir las categorias')
     );
   }
-  deleteCategory(category: Category): void{
-    this.serviceCategory.deleteCategory(category.idCategoria).subscribe(
+  deleteCategory(cat: Category): void{
+    this.serviceCategory.deleteCategory(cat.idCategoria).subscribe(
       () => {
         this.message='Eliminado exitosamente'
         this.getCategories();
@@ -71,6 +72,7 @@ export class CategoryReadComponent implements OnInit {
     this.formValue.controls['descripcion'].setValue(cat.descripcion);
   }
   updateCategory(): void{
+    this.category.descripcion=this.formValue.value.descripcion;
     this.serviceCategory.updateCategory(this.category).subscribe(
       () => {
         this.message='Actualizado exitosamente';

@@ -1,0 +1,27 @@
+<nav class="navbar navbar-dark bg-dark" style="border-top:1px solid white ;">
+  <div class="container-fluid">
+    <h1 style="color: aliceblue">Login</h1>
+  </div>
+</nav>
+<div class="container">
+  <form [formGroup] = "formValue">
+    <div class="my-3 row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">Usuario</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" formControlName="user" />
+      </div>
+    </div>
+    <div class="row">
+      <label for="inputPassword" class="col-sm-2 col-form-label"
+        >Contraseña</label
+      >
+      <div class="col-sm-10">
+        <input type="password" class="form-control" formControlName="pass" />
+      </div>
+    </div>
+    <p *ngIf="message!=''">{{ message }}</p>
+    <div class="my-3 d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary" (click)="verifyLogin()">Ingresar</button>
+    </div>
+  </form>
+</div>
