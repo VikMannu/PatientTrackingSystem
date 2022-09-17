@@ -1,4 +1,4 @@
-<nav class="navbar navbar-ligth bg-primary">
+<nav class="navbar navbar-dark bg-dark" style="border-top:1px solid white ;">
   <div class="container-fluid">
     <h1 style="color: aliceblue">Login</h1>
   </div>
@@ -20,10 +20,8 @@
       </div>
     </div>
     <p *ngIf="message!=''">{{ message }}</p>
-    <div class="my-3 row">
-      <div class="col-sm-10 text-center">
+    <div class="my-3 d-flex justify-content-end">
         <button type="submit" class="btn btn-primary" (click)="verifyLogin()">Ingresar</button>
-      </div>
     </div>
   </form>
 </div>
