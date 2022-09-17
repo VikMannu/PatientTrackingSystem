@@ -39,7 +39,7 @@ export class ServiceRegisterService {
     
     return this.http.get<DataList<Service>>(`${environment.baseUrlApi}/${this.serviceUrl}?ejemplo=${encodeUrl}`)
   }
-
+  
   storeService(idFichaClinica:number,observacion = null):Observable<Service>{
     //getting headers
     const headers = new HttpHeaders({
