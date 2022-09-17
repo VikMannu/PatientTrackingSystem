@@ -158,7 +158,6 @@
           <th>Cliente</th>
           <th>Categoria</th>
           <th>Subcategoria</th>
-          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -172,11 +171,6 @@
             {{ service.idFichaClinica.idTipoProducto.idCategoria.descripcion }}
           </td>
           <td>{{ service.idFichaClinica.idTipoProducto.descripcion }}</td>
-
-          <td class="d-flex gap-2">
-            <button class="btn btn-warning text-white">Editar Servicion</button>
-            <button class="btn btn-info text-white">ver</button>
-          </td>
         </tr>
         <tr *ngIf="services.length == 0">
           <td colspan="8">
