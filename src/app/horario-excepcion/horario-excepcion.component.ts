@@ -176,5 +176,14 @@ export class HorarioExcepcionComponent implements OnInit {
     )
   }
 
+  deleteSchedule(horario: HorarioExcepcion): void {
+    this.horaExcepcionService.deleteSExceptionSchedule(horario.idHorarioExcepcion).subscribe(
+      () => {
+        this.message = 'Horario eliminado exitosamente'
+        this.getExceptionSchedule();
+      },
+      error => {console.log("error: " + error), alert(`Error ${error.error}`)}
+    );
+  }
 }
 

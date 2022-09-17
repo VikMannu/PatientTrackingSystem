@@ -52,4 +52,18 @@ export class HorarioExcepcionService {
     );
   }
 
+  deleteSExceptionSchedule(idSchedule: number): Observable<any>{
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'usuario': 'usuario1' });
+    let options = { headers: headers };
+    const url = `${this.api}/${idSchedule}`;
+    return this.http.delete(url,options).pipe(
+      tap({
+        next: (data) => console.log(`deleted id=${idSchedule}`),
+        error: (error) => console.log('error: ' + error)
+      })
+    )
+  }
+
 }

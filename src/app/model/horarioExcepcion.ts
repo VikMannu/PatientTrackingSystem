@@ -1,7 +1,7 @@
 import {Person} from "./person";
 
 export class HorarioExcepcion {
-  idHorarioExcepcion!:string
+  idHorarioExcepcion!:number
   fechaCadena!: string
   horaAperturaCadena!: string
   horaCierreCadena!: string
