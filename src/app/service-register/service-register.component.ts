@@ -23,11 +23,13 @@ export class ServiceRegisterComponent implements OnInit {
   subcategories: Subcategory[] =[];
   formValue!: FormGroup;
   agregarForm!: FormGroup;
+  agregarDetalleForm!: FormGroup;
   modalEmployee:boolean =false;
   modalClient:boolean =false;
   modalAgregarServicio:boolean =false;
   clientsAndEmployees: Person[] =[];
   clinicalRecords: FichaClinica []=[];
+  fichaActiva: FichaClinica = new FichaClinica();
   constructor(
     private serviceRegisterService: ServiceRegisterService, 
     private categoryService: CategoryManagementService,
@@ -74,6 +76,16 @@ export class ServiceRegisterComponent implements OnInit {
 
     });
     this.agregarForm = this.formbuilber.group({
+      idClient: null,
+      idEmployee: null,
+      nameClient: null,
+      nameEmployee: null,
+      date: null,
+      clinicalRecordSelected: null,
+      observacion: null
+    });
+
+    this.agregarDetalleForm = this.formbuilber.group({
       idClient: null,
       idEmployee: null,
       nameClient: null,
@@ -266,5 +278,9 @@ export class ServiceRegisterComponent implements OnInit {
         this.agregarForm.get('idClient')?.value ?? null,
         null
       ]
+    }
+
+    setService(ficha :FichaClinica){
+      this.fichaActiva = ficha;
     }
 }
