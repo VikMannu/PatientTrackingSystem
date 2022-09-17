@@ -52,7 +52,7 @@ export class AttentionScheduleService {
     );
   }
 
-  deleteSchedule(idSchedule: string): Observable<any>{
+  deleteSchedule(idSchedule: number): Observable<any>{
     const url = `${this.api}/${idSchedule}`;
     return this.http.delete(url).pipe(
       tap({

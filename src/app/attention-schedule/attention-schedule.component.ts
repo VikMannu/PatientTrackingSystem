@@ -103,8 +103,14 @@ export class AttentionScheduleComponent implements OnInit {
   }
 
 
-
   saveSchedule(): void {
+
+    this.horarioAtencion.dia = this.formValue.value.dia;
+    this.horarioAtencion.horaAperturaCadena = this.formValue.value.horaAperturaCadena;
+    this.horarioAtencion.horaCierreCadena = this.formValue.value.horaCierreCadena;
+    this.horarioAtencion.intervaloMinutos = this.formValue.value.intervaloMinutos;
+    this.horarioAtencion.idEmpleado.idPersona = this.formValue.value.idEmpleado;
+
     console.log(this.horarioAtencion);
     this.serviceAttentionSchedule.createSchedule(this.horarioAtencion).subscribe(
       () => {
@@ -142,7 +148,13 @@ export class AttentionScheduleComponent implements OnInit {
   }
 
   updateSchedule(): void {
-    console.log(this.horarioAtencion);
+
+    this.horarioAtencion.dia = this.formValue.value.dia;
+    this.horarioAtencion.horaAperturaCadena = this.formValue.value.horaAperturaCadena;
+    this.horarioAtencion.horaCierreCadena = this.formValue.value.horaCierreCadena;
+    this.horarioAtencion.intervaloMinutos = this.formValue.value.intervaloMinutos;
+    this.horarioAtencion.idEmpleado.idPersona = this.formValue.value.idEmpleado;
+
     this.serviceAttentionSchedule.updateSchedule(this.horarioAtencion).subscribe(
       () => {
         this.message='Horario actualizado exitosamente';
@@ -154,6 +166,5 @@ export class AttentionScheduleComponent implements OnInit {
       error => console.log("error: "+error)
     )
   }
-
 
 }
