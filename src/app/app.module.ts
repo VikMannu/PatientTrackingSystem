@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { ServiceRegisterComponent } from './service-register/service-register.component';
 import { ServiceRegisterService } from './service/service-register/service-register.service';
 import { PatientManagementService } from './service/patient-management.service';
+import { ClinicalRecordService } from './service/clinical-record.service';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { PatientManagementService } from './service/patient-management.service';
     CategoryManagementService,
     SubcategoryManagementService,
     ServiceRegisterService,
-    PatientManagementService
+    PatientManagementService,
+    ClinicalRecordService
   ],
   bootstrap: [AppComponent]
 })
