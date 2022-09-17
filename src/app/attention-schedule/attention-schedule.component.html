@@ -1,0 +1,123 @@
+<nav class="navbar navbar-ligth bg-primary">
+  <div class="container-fluid">
+    <h1 style="color:aliceblue">Horarios de Atención</h1>
+    <div class="d-flex">
+      <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar</button>
+      <a class="btn btn-primary" routerLink="" role="button">Volver</a>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<div class="container">
+
+  <form [formGroup]="formFilters">
+    <div class="col-xs-1 my-2" align="left">
+      Filtrar por dia: <input formControlName="dia">
+    </div>
+    <div class="col-xs-1 my-2" align="left">
+      Filtrar por idEmpleado: <input formControlName="idEmpleado">
+    </div>
+  </form>
+
+  <div class="col-xs-1 my-2" align="left">
+    <button class="btn btn-primary  mx-3" (click)="getFilterAttentionSchedule()">Filtrar</button>
+    <button class="btn btn-primary  mx-3" (click)="clearFilter()">Quitar Filtros</button>
+  </div>
+</div>
+
+
+
+
+<div class="container text-rigth">
+  <div class="row">
+    <div class="col-md">
+      <div class="table-responsive">
+        <table class="table table-striped caption-top">
+          <caption>
+            <p *ngIf="message!=''">{{ message }}</p>
+          </caption>
+          <thead>
+          <tr>
+            <th scope="col">Dia</th>
+            <th scope="col">Hora de Apertura</th>
+            <th scope="col">Hora de Cierre</th>
+            <th scope="col">Intervalo (minutos)</th>
+            <th scope="col">Id empleado</th>
+            <th scope="col">Acción</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let horario of attentionSchedules">
+            <th scope="row">{{horario.dia}}</th>
+            <td>{{horario.horaAperturaCadena}}</td>
+            <td>{{horario.horaCierreCadena}}</td>
+            <td>{{horario.intervaloMinutos}}</td>
+            <td>{{horario.idEmpleado.idPersona}}</td>
+            <td>
+              <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editSchedule(horario)">Editar</button>
+                <button class="btn btn-danger mx-3" (click)="deleteSchedule(horario)">Eliminar</button>
+              </div>
+            </td>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="showAdd" class="modal-title" id="agregarPacienteLabel">Agregar Horario</h5>
+        <h5 *ngIf="showUpdate" class="modal-title" id="exampleModalLabel">Editar Horario</h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup] = "formValue">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Dia</label>
+            <input type="text" formControlName="dia" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Hora Apertura Cadena</label>
+            <input type="text" formControlName="horaAperturaCadena" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Hora Cierre Cadena</label>
+            <input type="text" formControlName="horaCierreCadena" class="form-control">
+
+            <label for="exampleInputEmail1" class="form-label">Intervalo Minutos</label>
+            <input type="text" formControlName="intervaloMinutos" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Id Empleado</label>
+            <input type="text" formControlName="idEmpleado" class="form-control" >
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancel" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" *ngIf="showAdd" class="btn btn-primary" (click)="saveSchedule()">Agregar</button>
+        <button type="button" *ngIf="showUpdate" class="btn btn-primary" (click)="updateSchedule()">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end mx-4">
+    <li class="page-item"><a *ngIf="config.currentPage>1" class="page-link" (click)="changePage(config.currentPage-1)">Anterior</a></li>
+    <li class="page-item"><a class="page-link active">{{config.currentPage}} </a></li>
+    <li class="page-item"><a *ngIf="attentionSchedules.length>1"class="page-link" (click)="changePage(config.currentPage+1)">Siguiente</a></li>
+  </ul>
+</nav>
