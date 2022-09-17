@@ -21,6 +21,8 @@ import { ServiceRegisterService } from './service/service-register/service-regis
 import { ProductPresentationComponent } from './product-presentation/product-presentation.component';
 import { LoginComponent } from './login/login.component';
 import { ServiceRegisterComponent } from './service-register/service-register.component';
+import { ReportComponent } from './report/report.component';
+import { ReportService } from './service/report.service';
 
 
 @NgModule({
@@ -37,7 +39,8 @@ import { ServiceRegisterComponent } from './service-register/service-register.co
     ProductPresentationComponent,
     MenuComponent,
     ServiceRegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ import { ServiceRegisterComponent } from './service-register/service-register.co
     HorarioExcepcionService,
     ServiceRegisterService,
     PatientManagementService,
-    ClinicalRecordService
+    ClinicalRecordService,
+    ReportService
   ],
   bootstrap: [AppComponent]
 })

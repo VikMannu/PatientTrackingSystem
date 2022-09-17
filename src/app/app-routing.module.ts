@@ -10,6 +10,7 @@ import {AttentionScheduleComponent} from "./attention-schedule/attention-schedul
 import {ReservaComponent} from "./reserva/reserva.component";
 import {HorarioExcepcionComponent} from "./horario-excepcion/horario-excepcion.component";
 import { ServiceRegisterComponent } from './service-register/service-register.component';
+import { ReportComponent } from './report/report.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
   }, {
     path: 'reserva',
     component: ReservaComponent
+  },
+  {
+    path: 'report',
+    component: ReportComponent
   }
 ];
 
