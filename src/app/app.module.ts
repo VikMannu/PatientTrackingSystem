@@ -12,6 +12,7 @@ import { SubcategoryManagementService } from './service/subcategory-management.s
 import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
 import { PatientReadComponent } from './patient-management/patient-read/patient-read.component';
 import {PatientManagementService} from "./service/patient-management.service";
+import { ReservaComponent } from './reserva/reserva.component';
 import { AttentionScheduleComponent } from './attention-schedule/attention-schedule.component';
 import { AttentionScheduleService } from './service/attention-schedule.service';
 
@@ -23,6 +24,8 @@ import { AttentionScheduleService } from './service/attention-schedule.service';
     CategoryCreateComponent,
     SubcategoriesManagementComponent,
     MenuComponent,
+    PatientReadComponent,
+    ReservaComponent
     PatientReadComponent,
     AttentionScheduleComponent
   ],

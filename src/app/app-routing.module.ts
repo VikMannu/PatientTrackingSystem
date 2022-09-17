@@ -6,6 +6,7 @@ import { MenuComponent } from './menu/menu.component';
 import { SubcategoriesManagementComponent } from './subcategories-management/subcategories-management.component';
 import {PatientReadComponent} from "./patient-management/patient-read/patient-read.component";
 import {AttentionScheduleComponent} from "./attention-schedule/attention-schedule.component";
+import {ReservaComponent} from "./reserva/reserva.component";
 
 const routes: Routes = [
   {
@@ -28,6 +29,9 @@ const routes: Routes = [
   {
     path: 'attention-schedule',
     component: AttentionScheduleComponent
+  }, {
+    path: 'reserva',
+    component: ReservaComponent
   }
 ];
 
