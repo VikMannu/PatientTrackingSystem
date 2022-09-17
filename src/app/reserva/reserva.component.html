@@ -1,1 +1,98 @@
-<p>reserva works!</p>
+<br>
+<nav class="navbar navbar-ligth bg-primary">
+  <div class="container-fluid">
+    <h1 style="color:aliceblue">Reservas</h1>
+    <div class="d-flex">
+      <!--      <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear Reserva</button>-->
+    </div>
+  </div>
+</nav>
+
+
+<div class="container">
+  <h4>Filtros de busqueda</h4>
+
+  <form class="mb-3" [formGroup]="formFilters">
+    <table class="mb-3">
+      <tr>
+        <td>
+          <label for="FechaDesde">Fecha Desde</label>
+          <input id="FechaDesde" class="form-control" type="date" formControlName="fechaDesde"/>
+        </td>
+        <td>
+          <label for="FechaHasta">Fecha Hasta</label>
+          <input id="FechaHasta" class="form-control" type="date" formControlName="fechaHasta"/>
+        </td>
+      </tr>
+    </table>
+    Empleado <input type="email" class="form-control" placeholder="Nombre" formControlName="idEmpleado">
+    Cliente <input type="email" class="form-control" placeholder="Nombre" formControlName="idCliente">
+  </form>
+
+  <div class="col-xs-1 my-2" align="left">
+    <!--    <button class="btn btn-primary  mx-3" (click)="getFilterReservas()">Filtrar</button>-->
+    <!--    <button class="btn btn-primary  mx-3" (click)="clearFilter()">Quitar Filtros</button>-->
+  </div>
+</div>
+
+<p *ngIf="message!=''">{{ message }}</p>
+
+<div class="container text-rigth">
+  <div class="row">
+    <div class="col-md">
+      <div class="table-responsive">
+        <table class="table table-striped caption-top">
+          <caption>
+            Lista de reservas
+          </caption>
+          <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora Inicio</th>
+            <th scope="col">Hora Fin</th>
+            <th scope="col">Empleado</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let reserva of reservas">
+            <td>{{reserva.idReserva}}</td>
+            <td>{{reserva.fechaCadena}}</td>
+            <td>{{reserva.horaInicioCadena}}</td>
+            <td>{{reserva.horaFinCadena}}</td>
+            <td>{{reserva.idEmpleado.nombre}} {{reserva.idEmpleado.apellido}}</td>
+            <td>{{reserva.idCliente.nombre}} {{reserva.idEmpleado.apellido}}</td>
+            <td>
+              <div class="d-grid gap-2 d-md-block">
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                  <!--                  <button type="button" class="btn btn-outline-primary"-->
+                  <!--                          (click)="cancelarReserva(reserva.idReserva)">Cancelar-->
+                  <!--                  </button>-->
+                  <!--                  <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"-->
+                  <!--                          data-bs-target="#exampleModal" (click)="setIndex(i)">Modificar-->
+                  <!--                  </button>-->
+                </div>
+              </div>
+            </td>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end mx-4">
+    <li class="page-item"><a *ngIf="config.currentPage>1" class="page-link" (click)="changePage(config.currentPage-1)">Anterior</a>
+    </li>
+    <li class="page-item"><a class="page-link active">{{config.currentPage}} </a></li>
+    <li class="page-item"><a *ngIf="reservas.length>1" class="page-link" (click)="changePage(config.currentPage+1)">Siguiente</a>
+    </li>
+  </ul>
+</nav>
+
+
+

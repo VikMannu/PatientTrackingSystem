@@ -15,6 +15,7 @@ import {PatientManagementService} from "./service/patient-management.service";
 import { ReservaComponent } from './reserva/reserva.component';
 import { AttentionScheduleComponent } from './attention-schedule/attention-schedule.component';
 import { AttentionScheduleService } from './service/attention-schedule.service';
+import {ReservaService} from "./service/reserva.service";
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { AttentionScheduleService } from './service/attention-schedule.service';
     CategoryManagementService,
     SubcategoryManagementService,
     PatientManagementService,
-    AttentionScheduleService
+    AttentionScheduleService,
+    ReservaService
   ],
   bootstrap: [AppComponent]
 })
