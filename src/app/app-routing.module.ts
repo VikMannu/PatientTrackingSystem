@@ -6,6 +6,7 @@ import { MenuComponent } from './menu/menu.component';
 import { SubcategoriesManagementComponent } from './subcategories-management/subcategories-management.component';
 import {PatientReadComponent} from "./patient-management/patient-read/patient-read.component";
 import {ReservaComponent} from "./reserva/reserva.component";
+import { ServiceRegisterComponent } from './service-register/service-register.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: 'subcategory-management',
     component: SubcategoriesManagementComponent
+  },
+  {
+    path: 'service-register',
+    component:ServiceRegisterComponent
   },
   {
     path: 'patient-read',

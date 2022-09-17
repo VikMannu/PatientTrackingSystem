@@ -19,6 +19,10 @@ export class CategoryManagementService {
     return this.http.get<DataList<Category>>(this.api+url);
   }
 
+  getAllCategories(): Observable<DataList<Category>> { 
+    return this.http.get<DataList<Category>>(this.api);
+  }
+
   createCategory(c: Category): Observable<Category> {
     return this.http
       .post<Category>(this.api, c)

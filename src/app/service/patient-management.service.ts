@@ -40,6 +40,10 @@ export class PatientManagementService {
     return this.http.get<DataList<Person>>(this.api+url);
   }
 
+  getAllPersons(): Observable<DataList<Person>>{
+    return this.http.get<DataList<Person>>(this.api);
+  }
+
   createPatient(p: Person): Observable<Person> {
     return this.http.post<Person>(this.api, p).pipe(
       tap(
