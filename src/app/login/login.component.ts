@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
         this.userLog.user = this.users[i].nombre;
         this.userLog.statusLogin = true;
         this.message = 'Bienvenido ' + this.userLog.user;
-        this.router.navigateByUrl('menu');
+        this.router.navigateByUrl('patient-read');
         break;
       }
     }
