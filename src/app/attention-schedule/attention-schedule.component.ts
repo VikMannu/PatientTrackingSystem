@@ -163,7 +163,7 @@ export class AttentionScheduleComponent implements OnInit {
         this.formValue.reset();
         this.getAttentionSchedule();
       },
-      error => console.log("error: "+error)
+      error => {console.log("error: " + error), alert(`Error ${error.error}`)}
     )
   }
 
