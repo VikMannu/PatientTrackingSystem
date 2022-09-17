@@ -9,7 +9,6 @@ import {CategoryManagementService} from "./service/category-management/category-
 import { MenuComponent } from './menu/menu.component';
 import { SubcategoriesManagementComponent } from './subcategories-management/subcategories-management.component';
 import { SubcategoryManagementService } from './service/subcategory-management.service';
-import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
 import { PatientReadComponent } from './patient-management/patient-read/patient-read.component';
 import {PatientManagementService} from "./service/patient-management.service";
 import { ReservaComponent } from './reserva/reserva.component';
@@ -17,19 +16,28 @@ import { AttentionScheduleComponent } from './attention-schedule/attention-sched
 import { AttentionScheduleService } from './service/attention-schedule.service';
 import { HorarioExcepcionComponent } from './horario-excepcion/horario-excepcion.component';
 import { HorarioExcepcionService } from './service/horario-excepcion.service';
+import { ClinicalRecordService } from './service/clinical-record.service';
+import { ServiceRegisterService } from './service/service-register/service-register.service';
+import { ProductPresentationComponent } from './product-presentation/product-presentation.component';
+import { LoginComponent } from './login/login.component';
+import { ServiceRegisterComponent } from './service-register/service-register.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     CategoryReadComponent,
-    CategoryCreateComponent,
     SubcategoriesManagementComponent,
     MenuComponent,
     PatientReadComponent,
     ReservaComponent,
     PatientReadComponent,
     AttentionScheduleComponent,
-    HorarioExcepcionComponent
+    HorarioExcepcionComponent,
+    ProductPresentationComponent,
+    MenuComponent,
+    ServiceRegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +51,10 @@ import { HorarioExcepcionService } from './service/horario-excepcion.service';
     SubcategoryManagementService,
     PatientManagementService,
     AttentionScheduleService,
-    HorarioExcepcionService
+    HorarioExcepcionService,
+    ServiceRegisterService,
+    PatientManagementService,
+    ClinicalRecordService
   ],
   bootstrap: [AppComponent]
 })

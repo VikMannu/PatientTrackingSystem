@@ -43,6 +43,10 @@ export class PatientManagementService {
     return this.http.get<DataList<Person>>(this.api+url);
   }
 
+  getUsers(): Observable<DataList<Person>>{
+    const url="?ejemplo=%7B%22soloUsuariosDelSistema%22%3Atrue%7D"
+    return this.http.get<DataList<Person>>(this.api+url);
+  }
   createPatient(p: Person): Observable<Person> {
     return this.http.post<Person>(this.api, p).pipe(
       tap(
