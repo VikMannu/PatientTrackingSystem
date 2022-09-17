@@ -32,6 +32,9 @@ export class PatientManagementService {
 
   }
 
+  getAllPersons(): Observable<DataList<Person>>{
+    return this.http.get<DataList<Person>>(this.api);
+  }
 
   getPatients(itemsPerPage: number, inicio: number): Observable<DataList<Person>> {
 

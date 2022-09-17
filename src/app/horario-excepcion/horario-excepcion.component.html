@@ -1,0 +1,178 @@
+<div class="card mx-2 pt-2">
+  <div class="card-header">
+    <h2>Horarios Excepcionales</h2>
+  </div>
+  <div class="card-body">
+    <h4>Filtros de busqueda</h4>
+
+    <!-- Filter section -->
+    <form [formGroup]="formValue">
+      <div class="row filters">
+        <div class="col-sm-12 col-md-6">
+          <label for="date-start" class="form-label">Fecha</label>
+          <input formControlName="dateStart" type="date" id="date-start" class="form-control" />
+        </div>
+
+        <!--Modal funtionality  -->
+
+        <div class="col-sm-12 col-md-6">
+          <input
+            type="hidden"
+            formControlName="idEmployee"
+            id="empleado"
+            class="form-control"
+          />
+          <label for="empleado" class="form-label">Empleado</label>
+          <input
+            type="text"
+            formControlName="nameEmployee"
+            id="empleado-name"
+            class="form-control"
+          />
+          <button
+
+            class="btn btn-primary my-1 w-100"
+            data-bs-toggle="modal"
+            data-bs-target="#genericModal"
+          >
+            Buscar
+          </button>
+        </div>
+        <div class="d-flex gap-2 my-2 justify-content-end">
+          <button class="btn btn-primary" id="btn-search" (click)="filtrar()" >Buscar</button>
+          <button
+            class="btn btn-danger"
+            id="btn-clean"
+            (click)="cleanFilters()"
+          >
+            Limpiar
+          </button>
+        </div>
+      </div>
+    </form>
+
+
+    <div class="container text-rigth">
+      <div class="row">
+        <div class="col-md">
+          <div class="table-responsive">
+            <table class="table table-striped caption-top">
+              <caption>
+                <p *ngIf="message!=''">{{ message }}</p>
+              </caption>
+              <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Fecha Cadena</th>
+                <th scope="col">Hora de Apertura</th>
+                <th scope="col">Hora de Cierre</th>
+                <th scope="col">Flag</th>
+                <th scope="col">Id empleado</th>
+                <th scope="col">Intervalo (minutos)</th>
+                <th scope="col">Acción</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let horario of horariosExcepciones">
+                <th scope="row">{{horario.idHorarioExcepcion}}</th>
+                <td>{{horario.fechaCadena}}</td>
+                <td>{{horario.horaAperturaCadena}}</td>
+                <td>{{horario.horaCierreCadena}}</td>
+                <td>{{horario.flagEsHabilitar}}</td>
+                <td>{{horario.idEmpleado.idPersona}}</td>
+                <td>{{horario.intervaloMinutos}}</td>
+                <td>
+                  <div class="d-grid gap-2 d-md-block">
+                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" >Editar</button>
+                    <button class="btn btn-danger mx-3" >Eliminar</button>
+                  </div>
+                </td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- Modals -->
+<div
+  class="modal fade"
+  id="genericModal"
+  tabindex="-1"
+  aria-labelledby="genericModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-fullscreen modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="modalEmployee" class="modal-title" id="modalEmployeeLabel">
+          Buscar Empleado
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- <form [formGroup] = "formValue"> -->
+        <div class="table-responsive">
+          <table class="table w-100">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Email</th>
+              <th>Ruc</th>
+              <th>Cédula</th>
+              <th>Tipo Persona</th>
+              <th>Fecha de Nacimiento</th>
+              <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let person of Employees">
+              <td>{{ person.idPersona }}</td>
+              <td>{{ person.nombre }}</td>
+              <td>{{ person.apellido }}</td>
+              <td>{{ person.email }}</td>
+              <td>{{ person.ruc }}</td>
+              <td>{{ person.cedula }}</td>
+              <td>{{ person.tipoPersona }}</td>
+              <td>{{ person.fechaNacimiento }}</td>
+              <td>
+                <button
+                  class="btn btn-success" data-bs-dismiss="modal"
+                  (click)="setModalOptionSelected(person)"
+                >
+                  Seleccionar
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end mx-4">
+    <li class="page-item"><a *ngIf="config.currentPage>1" class="page-link" (click)="changePage(config.currentPage-1)">Anterior</a></li>
+    <li class="page-item"><a class="page-link active">{{config.currentPage}} </a></li>
+    <li class="page-item"><a *ngIf="horariosExcepciones.length>1"class="page-link" (click)="changePage(config.currentPage+1)">Siguiente</a></li>
+  </ul>
+</nav>

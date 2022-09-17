@@ -15,7 +15,8 @@ import {PatientManagementService} from "./service/patient-management.service";
 import { ReservaComponent } from './reserva/reserva.component';
 import { AttentionScheduleComponent } from './attention-schedule/attention-schedule.component';
 import { AttentionScheduleService } from './service/attention-schedule.service';
-
+import { HorarioExcepcionComponent } from './horario-excepcion/horario-excepcion.component';
+import { HorarioExcepcionService } from './service/horario-excepcion.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AttentionScheduleService } from './service/attention-schedule.service';
     PatientReadComponent,
     ReservaComponent,
     PatientReadComponent,
-    AttentionScheduleComponent
+    AttentionScheduleComponent,
+    HorarioExcepcionComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { AttentionScheduleService } from './service/attention-schedule.service';
     CategoryManagementService,
     SubcategoryManagementService,
     PatientManagementService,
-    AttentionScheduleService
+    AttentionScheduleService,
+    HorarioExcepcionService
   ],
   bootstrap: [AppComponent]
 })

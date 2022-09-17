@@ -7,6 +7,7 @@ import { SubcategoriesManagementComponent } from './subcategories-management/sub
 import {PatientReadComponent} from "./patient-management/patient-read/patient-read.component";
 import {AttentionScheduleComponent} from "./attention-schedule/attention-schedule.component";
 import {ReservaComponent} from "./reserva/reserva.component";
+import {HorarioExcepcionComponent} from "./horario-excepcion/horario-excepcion.component";
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   }, {
     path: 'reserva',
     component: ReservaComponent
+  },
+  {
+    path: 'horario-excepcion',
+    component: HorarioExcepcionComponent
   }
 ];
 
