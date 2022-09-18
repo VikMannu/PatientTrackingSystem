@@ -25,6 +25,7 @@ import {ReportComponent} from "./report/report.component";
 import {LoginComponent} from "./login/login.component";
 import {ProductPresentationService} from "./service/product-presentation.service";
 import {ProductPresentationComponent} from "./product-presentation/product-presentation.component";
+import { CrearReservaComponent } from './crear-reserva/crear-reserva.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {ProductPresentationComponent} from "./product-presentation/product-prese
     HorarioExcepcionComponent,
     ReportComponent,
     LoginComponent,
-    ProductPresentationComponent
+    ProductPresentationComponent,
+    CrearReservaComponent
   ],
   imports: [
     BrowserModule,

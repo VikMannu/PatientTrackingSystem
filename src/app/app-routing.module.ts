@@ -11,6 +11,7 @@ import {ReservaComponent} from "./reserva/reserva.component";
 import { ServiceRegisterComponent } from './service-register/service-register.component';
 import {HorarioExcepcionComponent} from "./horario-excepcion/horario-excepcion.component";
 import { ReportComponent } from './report/report.component';
+import {CrearReservaComponent} from "./crear-reserva/crear-reserva.component";
 
 const routes: Routes = [
   {
@@ -60,6 +61,10 @@ const routes: Routes = [
   {
     path: 'report',
     component: ReportComponent
+  },
+  {
+    path: 'crear-reserva',
+    component: CrearReservaComponent
   }
 ];
 
