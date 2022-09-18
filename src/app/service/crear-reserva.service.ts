@@ -14,11 +14,11 @@ export class CrearReservaService {
   constructor(private http: HttpClient) { }
 
   getAllHoursReservas(filters: String[]): Observable<Reserva[]> {
-    const aux = "%3Ffecha%3D20190903%26disponible%3DS"
+    console.log(filters)
     return this.http.get<Reserva[]>(`stock-nutrinatalia/persona/${filters[1]}/agenda?fecha=${filters[0]}&disponible=S`)
   }
 
-  addReserva(p: Reserva): Observable<any> {
+  addReserva(p: any): Observable<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'usuario': 'usuario1'

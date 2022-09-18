@@ -128,22 +128,41 @@ export class CrearReservaComponent implements OnInit {
     const date = this.formValue.get('date')?.value
 
     return [
-      date,
+      date != null ? date.replaceAll('-', '') : null,
       this.employeeReserva.idPersona
     ]
   }
 
   setReserva(reserva: Reserva) {
-    reserva.idEmpleado = new Person()
-    reserva.idCliente = new Person()
-    reserva.idEmpleado.idPersona = this.employeeReserva.idPersona
-    reserva.idCliente.idPersona = this.patientReserva.idPersona
-    reserva.observacion = this.formValue.get('observacion')?.value
+    let reservaAdd: ReservaPost = new ReservaPost()
+    reservaAdd.observacion = this.formValue.get('observacion')?.value
+    reservaAdd.fechaCadena = reserva.fechaCadena
+    reservaAdd.horaInicioCadena = reserva.horaInicioCadena
+    reservaAdd.horaFinCadena = reserva.horaFinCadena
+    reservaAdd.idEmpleado = {
+      idPersona: this.employeeReserva.idPersona
+    }
+    reservaAdd.idCliente = {
+      idPersona: this.patientReserva.idPersona
+    }
 
-    this.serviceCrearReserva.addReserva(reserva).subscribe({
-      next: (entity) => console.log('agregado', entity),
+    this.serviceCrearReserva.addReserva(reservaAdd).subscribe({
+      next: (entity) => alert('Reserva creado correctamente'),
       error: (error) => alert(error.message)
     })
     this.search()
+  }
+}
+
+class ReservaPost {
+  observacion!: String
+  fechaCadena!: String
+  horaInicioCadena!: String
+  horaFinCadena!: String
+  idEmpleado!: {
+    idPersona: String
+  }
+  idCliente!: {
+    idPersona: String
   }
 }
