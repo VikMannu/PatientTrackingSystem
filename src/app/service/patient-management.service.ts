@@ -29,7 +29,6 @@ export class PatientManagementService {
     console.log('Query enviado: ' + encode);
     const url = `?like=S&ejemplo=${encode}&inicio=${inicio}&cantidad=${itemsPerPage}&orderBy=idPersona&orderDir=asc`;
     return this.http.get<DataList<Person>>(this.api+url);
-
   }
 
   getAllPersons(): Observable<DataList<Person>>{
@@ -47,6 +46,7 @@ export class PatientManagementService {
     const url="?ejemplo=%7B%22soloUsuariosDelSistema%22%3Atrue%7D"
     return this.http.get<DataList<Person>>(this.api+url);
   }
+
   createPatient(p: Person): Observable<Person> {
     return this.http.post<Person>(this.api, p).pipe(
       tap(
@@ -73,6 +73,19 @@ export class PatientManagementService {
         (error) => console.log('error: ' + error)
       )
     )
+  }
+
+  getPersons(
+    isSystem: Boolean
+  ): Observable<DataList<Person>> {
+
+    if(isSystem) {
+      const urlTrue="?ejemplo=%7B%22soloUsuariosDelSistema%22%3Atrue%7D"
+      return this.http.get<DataList<Person>>(this.api+urlTrue);
+    } else {
+      const urlFalse="?ejemplo=%7B%22soloUsuariosDelSistema%22%3Afalse%7D"
+      return this.http.get<DataList<Person>>(this.api+urlFalse);
+    }
   }
 
 }

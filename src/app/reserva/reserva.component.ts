@@ -20,12 +20,14 @@ export class ReservaComponent implements OnInit {
   modalEmployee: boolean = false;
   modalClient: boolean = false;
   reservas: Reserva[] = [];
-  clientsAndEmployees: Person[] = [];
   message: string = "";
   banIsFilter!: number;
   filter: any[] = [];
   config: ConfigPage = new ConfigPage();
   reservaUpdate: Reserva = new Reserva()
+  employees: Person[] = []
+  patients: Person[] = []
+  clientsAndEmployees: Person[] = []
 
   constructor(
     private categoryService: CategoryManagementService,
@@ -43,7 +45,7 @@ export class ReservaComponent implements OnInit {
     this.filter[1] = '';
     this.config.currentPage = 1;
     this.getReservas();
-    this.getClientAndEmployee();
+    this.getClientAndEmployee()
   }
 
   initForm(): void {
@@ -87,6 +89,7 @@ export class ReservaComponent implements OnInit {
     this.config.currentPage = 1;
     this.banIsFilter = 0
     this.getReservas()
+    this.getClientAndEmployee()
 
   }
 
@@ -111,10 +114,12 @@ export class ReservaComponent implements OnInit {
 
     if (typeModal == 'searchEmployee') {
       this.modalEmployee = true;
+      this.clientsAndEmployees = this.employees
     }
 
     if (typeModal == 'searchClient') {
       this.modalClient = true;
+      this.clientsAndEmployees = this.patients
     }
 
   }
@@ -168,11 +173,23 @@ export class ReservaComponent implements OnInit {
   }
 
   getClientAndEmployee(): void {
-    this.patientsService.getAllPersons().subscribe((res: any) => {
-      if (res?.lista.length > 0) {
-        this.clientsAndEmployees = res.lista
-      }
-    });
+    this.getEmployees()
+    this.getPatients()
+  }
+
+  getEmployees() {
+    console.log("employee")
+    this.patientsService.getPersons(true).subscribe({
+      next: (entity) => this.employees = entity.lista,
+      error: (error) => alert(error.message)
+    })
+  }
+
+  getPatients() {
+    this.patientsService.getPersons(false).subscribe({
+      next: (entity) => this.patients = entity.lista,
+      error: (error) => alert(error.message)
+    })
   }
 
   cancelarReserva(id: String) {
