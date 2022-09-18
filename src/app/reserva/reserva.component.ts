@@ -195,7 +195,7 @@ export class ReservaComponent implements OnInit {
   cancelarReserva(id: String) {
     this.serviceReserva.deleteReserva(id).subscribe({
       next: (entity) => console.log('reserva borrada', entity),
-      error: (error) => console.log('no se pudo borrar la reserva', error),
+      error: (error) => alert(error.message),
     });
     this.ngOnInit()
   }
