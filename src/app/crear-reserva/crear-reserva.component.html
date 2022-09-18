@@ -1,1 +1,208 @@
-<p>crear-reserva works!</p>
+<nav class="navbar navbar-ligth bg-primary">
+  <div class="container-fluid">
+    <h1 style="color:aliceblue">Reservas</h1>
+    <div class="d-flex">
+    </div>
+  </div>
+</nav>
+
+
+<div class="container">
+  <h4>Filtros de busqueda</h4>
+
+  <!-- Filter section -->
+  <form [formGroup]="formValue">
+    <div class="row filters">
+      <div class="col-sm-12 col-md-6">
+        <label for="date" class="form-label">Fecha</label>
+        <input formControlName="date" type="date" id="date" class="form-control"/>
+      </div>
+
+      <div class="col-sm-12 col-md-6">
+        <label for="observacion" class="form-label">Observacion</label>
+        <input
+          type="text"
+          formControlName="observacion"
+          id="observacion"
+          class="form-control"
+        />
+      </div>
+
+      <!--Modal funtionality  -->
+      <div class="col-sm-12 col-md-6">
+        <input
+          type="hidden"
+          formControlName="idEmployee"
+          id="empleado"
+          class="form-control"
+        />
+        <label for="empleado" class="form-label">Empleado</label>
+        <input
+          type="text"
+          formControlName="nameEmployee"
+          id="empleado-name"
+          class="form-control"
+        />
+        <button
+          (click)="showModal('searchEmployee')"
+          class="btn btn-primary my-1 w-100"
+          data-bs-toggle="modal"
+          data-bs-target="#genericModal"
+        >
+          Buscar
+        </button>
+      </div>
+
+      <div class="col-sm-12 col-md-6">
+        <input
+          type="hidden"
+          formControlName="idClient"
+          id="cliente"
+          class="form-control"
+        />
+        <label for="cliente-name" class="form-label">Cliente</label>
+        <input
+          type="text"
+          formControlName="nameClient"
+          id="cliente-name"
+          class="form-control"
+        />
+
+        <button
+          (click)="showModal('searchClient')"
+          class="btn btn-primary my-1 w-100"
+          data-bs-toggle="modal"
+          data-bs-target="#genericModal"
+        >
+          Buscar
+        </button>
+      </div>
+
+      <div class="d-flex gap-2 my-2 justify-content-end">
+        <button class="btn btn-primary" id="btn-search" (click)="search()">Agenda</button>
+        <button
+          class="btn btn-danger"
+          id="btn-clean"
+          (click)="cleanFilters()"
+        >
+          Limpiar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container text-rigth">
+  <div class="row">
+    <div class="col-md">
+      <div class="table-responsive">
+        <table class="table table-striped caption-top">
+          <caption>
+            Lista de reservas
+          </caption>
+          <thead>
+          <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora Inicio</th>
+            <th scope="col">Hora Fin</th>
+            <th scope="col">Empleado</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Accion</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let reserva of reservas">
+            <td>{{reserva.fechaCadena}}</td>
+            <td>{{reserva.horaInicioCadena}}</td>
+            <td>{{reserva.horaFinCadena}}</td>
+            <td>{{employeeReserva.nombre}} {{employeeReserva.apellido}}</td>
+            <td>{{patientReserva.nombre}} {{patientReserva.apellido}}</td>
+            <td>
+              <div class="d-grid gap-2 d-md-block">
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                  <button type="button" class="btn btn-outline-primary"
+                          (click)="setReserva(reserva)">
+                    Crear Reserva
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals -->
+<div
+  class="modal fade"
+  id="genericModal"
+  tabindex="-1"
+  aria-labelledby="genericModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="modalEmployee" class="modal-title" id="modalEmployeeLabel">
+          Buscar Empleado
+        </h5>
+        <h5 *ngIf="modalClient" class="modal-title" id="modalClientLabel">
+          Buscar Cliente
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table w-100">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Email</th>
+              <th>Cédula</th>
+              <th>Tipo Persona</th>
+              <th>Fecha de Nacimiento</th>
+              <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let person of clientsAndEmployees">
+              <td>{{ person.idPersona }}</td>
+              <td>{{ person.nombre }}</td>
+              <td>{{ person.apellido }}</td>
+              <td>{{ person.email }}</td>
+              <td>{{ person.cedula }}</td>
+              <td>{{ person.tipoPersona }}</td>
+              <td>{{ person.fechaNacimiento }}</td>
+              <td>
+                <button
+                  class="btn btn-success" data-bs-dismiss="modal"
+                  (click)="setModalOptionSelected(person)"
+                >
+                  Seleccionar
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+        <button type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

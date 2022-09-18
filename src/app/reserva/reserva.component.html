@@ -2,7 +2,8 @@
   <div class="container-fluid">
     <h1 style="color:aliceblue">Reservas</h1>
     <div class="d-flex">
-      <!--      <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addReserva">Crear Reserva</button>-->
+      <a routerLink="/crear-reserva">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addReserva">Crear Reserva</button>      </a>
     </div>
   </div>
 </nav>
@@ -159,7 +160,6 @@
         ></button>
       </div>
       <div class="modal-body">
-        <!-- <form [formGroup] = "formValue"> -->
         <div class="table-responsive">
           <table class="table w-100">
             <thead>
@@ -168,7 +168,6 @@
               <th>Nombre</th>
               <th>Apellido</th>
               <th>Email</th>
-              <th>Ruc</th>
               <th>Cédula</th>
               <th>Tipo Persona</th>
               <th>Fecha de Nacimiento</th>
@@ -181,7 +180,6 @@
               <td>{{ person.nombre }}</td>
               <td>{{ person.apellido }}</td>
               <td>{{ person.email }}</td>
-              <td>{{ person.ruc }}</td>
               <td>{{ person.cedula }}</td>
               <td>{{ person.tipoPersona }}</td>
               <td>{{ person.fechaNacimiento }}</td>

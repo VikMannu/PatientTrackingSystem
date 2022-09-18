@@ -46,12 +46,6 @@ export class ReservaService {
     return this.http.get<Reserva>(`${environment.baseUrlApi}/${this.reservaUrl}/${id}`)
   }
 
-  addReserva(p: any): Observable<any> {
-    return this.http.post(`${environment.baseUrlApi}/${this.reservaUrl}`, p).pipe(tap({
-      next: (data) => console.log('agregado ' + data), error: (error) => console.log("error: " + error),
-    }));
-  }
-
   deleteReserva(id: String): Observable<any> {
     return this.http.delete(`${environment.baseUrlApi}/${this.reservaUrl}/${id}`).pipe(tap({
       next: (data) => console.log('eliminado ' + data), error: (error) => console.log("error: " + error),
@@ -68,14 +62,5 @@ export class ReservaService {
     return this.http.put(`${environment.baseUrlApi}/${this.reservaUrl}`, p, options).pipe(tap({
       next: (data) => console.log('actualizado ' + data), error: (error) => console.log("error: " + error),
     }));
-  }
-
-  getAllHoursReservas(filters: String[], idEmpleado: number, fecha: string, flagDisponible: string): Observable<Reserva[]> {
-
-    if (filters.includes('Disponible')) {
-      return this.http.get<Reserva[]>(`${environment.baseUrlApi}/persona/${idEmpleado}/agenda?fecha=${fecha}&disponible=${flagDisponible}`)
-    } else {
-      return this.http.get<Reserva[]>(`${environment.baseUrlApi}/persona/${idEmpleado}/agenda?fecha=${fecha}`)
-    }
   }
 }
