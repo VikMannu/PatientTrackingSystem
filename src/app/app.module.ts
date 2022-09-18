@@ -16,15 +16,16 @@ import { PatientReadComponent } from './patient-management/patient-read/patient-
 import { ReservaComponent } from './reserva/reserva.component';
 import { AttentionScheduleComponent } from './attention-schedule/attention-schedule.component';
 import { AttentionScheduleService } from './service/attention-schedule.service';
-import {HorarioExcepcionService} from "./service/horario-excepcion.service";
+import { HorarioExcepcionComponent } from './horario-excepcion/horario-excepcion.component';
+import { HorarioExcepcionService } from './service/horario-excepcion.service';
+import { ClinicalRecordService } from './service/clinical-record.service';
+import { ProductPresentationComponent } from './product-presentation/product-presentation.component';
+import { LoginComponent } from './login/login.component';
+import { ReportComponent } from './report/report.component';
+import { ReportService } from './service/report.service';
+import { FichaClinicaComponent } from './ficha-clinica/ficha-clinica.component';
 import {ReservaService} from "./service/reserva.service";
-import {ClinicalRecordService} from "./service/clinical-record.service";
-import {ReportService} from "./service/report.service";
-import {HorarioExcepcionComponent} from "./horario-excepcion/horario-excepcion.component";
-import {ReportComponent} from "./report/report.component";
-import {LoginComponent} from "./login/login.component";
 import {ProductPresentationService} from "./service/product-presentation.service";
-import {ProductPresentationComponent} from "./product-presentation/product-presentation.component";
 import { CrearReservaComponent } from './crear-reserva/crear-reserva.component';
 
 
@@ -42,7 +43,12 @@ import { CrearReservaComponent } from './crear-reserva/crear-reserva.component';
     ReportComponent,
     LoginComponent,
     ProductPresentationComponent,
-    CrearReservaComponent
+    CrearReservaComponent,
+    MenuComponent,
+    ServiceRegisterComponent,
+    LoginComponent,
+    ReportComponent,
+    FichaClinicaComponent
   ],
   imports: [
     BrowserModule,

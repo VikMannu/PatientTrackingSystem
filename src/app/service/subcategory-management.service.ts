@@ -27,7 +27,18 @@ export class SubcategoryManagementService {
     const url = `?like=S&ejemplo=${encode}&inicio=${inicio}&cantidad=${itemsPerPage}&orderBy=idTipoProducto&orderDir=asc`;
     return this.http.get<DataList<Subcategory>>(this.api + url);
   }
-
+  getSubcategoriesByCategory(
+    filter: any
+  ): Observable<DataList<Subcategory>> {
+    const encode = encodeURIComponent(
+      `{
+      "idCategoria":{"idCategoria":${filter}}
+    }`
+    );
+    console.log('El query enviado' + encode);
+    const url = `?like=S&ejemplo=${encode}&orderBy=idTipoProducto&orderDir=asc`;
+    return this.http.get<DataList<Subcategory>>(this.api + url);
+  }
   getSubcategories(
     itemsPerPage: number,
     inicio: number

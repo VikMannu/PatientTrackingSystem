@@ -2,8 +2,9 @@ import { ProductPresentation } from './productPresentation';
 import { Subcategory } from './subcategory';
 import { Person } from './person';
 export class FichaClinica {
-    idFichaClinica!: number;  
+    idFichaClinica!: number;
     fechaHora!: Date;
+    fechaHoraCadena!:String;
     motivoConsulta!: string;
     diagnostico!: string;
     observacion!: string;
