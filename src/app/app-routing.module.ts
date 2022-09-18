@@ -11,6 +11,7 @@ import {ReservaComponent} from "./reserva/reserva.component";
 import {HorarioExcepcionComponent} from "./horario-excepcion/horario-excepcion.component";
 import { ServiceRegisterComponent } from './service-register/service-register.component';
 import { ReportComponent } from './report/report.component';
+import { FichaClinicaComponent } from './ficha-clinica/ficha-clinica.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,10 @@ const routes: Routes = [
   {
     path: 'report',
     component: ReportComponent
+  },
+  {
+    path: 'ficha-clinica',
+    component: FichaClinicaComponent
   }
 ];
 
