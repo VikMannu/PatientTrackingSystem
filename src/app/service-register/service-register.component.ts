@@ -24,7 +24,7 @@ export class ServiceRegisterComponent implements OnInit {
   modalClient:boolean =false;
   clientsAndEmployees: Person[] =[];
   constructor(
-    private serviceRegisterService: ServiceRegisterService, 
+    private serviceRegisterService: ServiceRegisterService,
     private categoryService: CategoryManagementService,
     private subcategoryService: SubcategoryManagementService,
     private patientsService: PatientManagementService,
@@ -42,9 +42,9 @@ export class ServiceRegisterComponent implements OnInit {
   getClientAndEmployee():void{
     this.patientsService.getAllPersons().subscribe((res:any)=>{
       if(res?.lista.length > 0){
-        this.clientsAndEmployees =res.lista 
+        this.clientsAndEmployees =res.lista
       }
-      // console.log(this.clientsAndEmployees);  
+      // console.log(this.clientsAndEmployees);
     });
   }
   initForm():void{
@@ -62,29 +62,30 @@ export class ServiceRegisterComponent implements OnInit {
   getServices(){
     this.serviceRegisterService.getAllServices().subscribe((res:any)=>{
       if(res?.lista.length > 0){
-        this.services =res.lista 
+        this.services =res.lista
       }
-      // console.log(this.services);  
+      // console.log(this.services);
     });
   }
 
   getCategories():void{
     this.categoryService.getAllCategories().subscribe((res:any)=>{
       if(res?.lista.length > 0){
-        this.categories =res.lista 
+        this.categories =res.lista
       }
+
       // console.log(this.categories);
-      
+
     })
   }
 
   getSubcategories():void{
     this.subcategoryService.getAllSubcategories().subscribe((res:any)=>{
       if(res?.lista.length > 0){
-        this.subcategories =res.lista 
+        this.subcategories =res.lista
       }
       // console.log(this.subcategories);
-      
+
     })
   }
   /**
@@ -94,12 +95,12 @@ export class ServiceRegisterComponent implements OnInit {
 
     this.formValue.reset();
     this.getServices();
-    
+
   }
 
   /**
    * in order to show the difference titles we set what is the current modal active
-   * @param typeModal  
+   * @param typeModal
    */
   showModal(typeModal:string):void{
 
@@ -112,9 +113,9 @@ export class ServiceRegisterComponent implements OnInit {
     }
 
     if(typeModal == 'searchClient'){
-      this.modalClient = true;  
+      this.modalClient = true;
     }
-    
+
   }
 
   /**
@@ -122,7 +123,7 @@ export class ServiceRegisterComponent implements OnInit {
    */
 
    setModalOptionSelected(person:Person){
-    
+
     if(this.modalClient){
       this.formValue.controls['idClient'].setValue(person.idPersona);
       this.formValue.controls['nameClient'].setValue(person.nombre);
@@ -131,7 +132,7 @@ export class ServiceRegisterComponent implements OnInit {
       this.formValue.controls['idEmployee'].setValue(person.idPersona);
       this.formValue.controls['nameEmployee'].setValue(person.nombre);
     }
-    
+
    }
 
    /**
@@ -140,20 +141,20 @@ export class ServiceRegisterComponent implements OnInit {
     search():void{
       //getting filters from form
       const filters = this.getFilters();
-      
+
       //getting results from request
       this.serviceRegisterService.getService(filters).subscribe((res:any)=>{
-        
+
         if(res?.lista){
           this.services = res.lista;
 
           //filter by categories and subcategories
           const category = this.formValue.get('category')?.value;
           const subcategory = this.formValue.get('subcategory')?.value;
-          
-          
+
+
           if(category || subcategory){
-            
+
             this.services = this.services.filter((value,index)=>{
               let result = true;
               //filter category
@@ -165,13 +166,13 @@ export class ServiceRegisterComponent implements OnInit {
               if (subcategory && result) {
                 result = value.idFichaClinica.idTipoProducto.idTipoProducto == subcategory;
               }
-              
+
               return result;
             });
-            
+
           }
         }
-        
+
       })
     }
 

@@ -1,5 +1,5 @@
 export class Reserva {
-  idReserva!: number
+  idReserva!: String
   fechaCadena!: String
   horaInicioCadena!: String
   horaFinCadena!: String

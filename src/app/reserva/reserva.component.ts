@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PatientManagementService} from "../service/patient-management.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ReservaService} from "../service/reserva.service";
 import {Reserva} from "../model/reserva.model";
 import {ConfigPage} from "../model/configPage";
+import {CategoryManagementService} from "../service/category-management/category-management.service";
+import {SubcategoryManagementService} from "../service/subcategory-management.service";
+import {Person} from "../model/person";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-reserva',
@@ -11,52 +15,194 @@ import {ConfigPage} from "../model/configPage";
   styleUrls: ['./reserva.component.css']
 })
 export class ReservaComponent implements OnInit {
-  formFilters!: FormGroup;
+  formValue!: FormGroup;
+  formUpdate!: FormGroup;
+  modalEmployee: boolean = false;
+  modalClient: boolean = false;
   reservas: Reserva[] = [];
+  clientsAndEmployees: Person[] = [];
   message: string = "";
   banIsFilter!: number;
   filter: any[] = [];
   config: ConfigPage = new ConfigPage();
+  reservaUpdate: Reserva = new Reserva()
 
-  constructor(private serviceReserva: ReservaService, private formBuilder: FormBuilder) { }
+  constructor(
+    private categoryService: CategoryManagementService,
+    private subcategoryService: SubcategoryManagementService,
+    private patientsService: PatientManagementService,
+    private formbuilber: FormBuilder,
+    private serviceReserva: ReservaService
+  ) {
+  }
 
   ngOnInit(): void {
-    this.formFilters = this.formBuilder.group({
-      fechaDesde: null,
-      fechaHasta: null,
-      idEmpleado: null,
-      idCliente: null
-    });
+    this.initForm()
     this.banIsFilter = 0;
     this.filter[0] = '';
     this.filter[1] = '';
-    this.config.currentPage=1;
+    this.config.currentPage = 1;
     this.getReservas();
+    this.getClientAndEmployee();
   }
 
-  getReservas(): void{
-    let inicio = this.config.currentPage-1;
-    inicio = inicio*this.config.itemsPerPage;
-    this.serviceReserva.getReservas(this.config.itemsPerPage, inicio).subscribe(
+  initForm(): void {
+    this.formValue = this.formbuilber.group({
+      idClient: null,
+      idEmployee: null,
+      nameClient: null,
+      nameEmployee: null,
+      dateStart: null,
+      dateEnd: null
+    });
+
+    this.formUpdate = this.formbuilber.group({
+      idReserva: null,
+      observacion: null,
+      flagAsistio: null
+    })
+  }
+
+  getReservas(): void {
+    let inicio = this.config.currentPage - 1;
+    inicio = inicio * this.config.itemsPerPage;
+    this.serviceReserva.getAllReservas(this.config.itemsPerPage, inicio).subscribe(
+      (res: any) => {
+        if (res?.lista.length > 0) {
+          const aux = res.lista;
+          const date = formatDate(new Date(), 'yyyy-mm-dd', 'en-US').replace('-', '').replace('-', '')
+          console.log(date);
+          this.reservas = aux.filter((value: { fechaCadena: string; }) => value.fechaCadena == date);
+        }
+      }
+    )
+  }
+
+  /**
+   * Clear all inputs and reload the table
+   */
+  cleanFilters(): void {
+
+    this.formValue.reset();
+    this.config.currentPage = 1;
+    this.banIsFilter = 0
+    this.getReservas()
+
+  }
+
+  changePage(page: number) {
+    this.config.currentPage = page;
+    if (this.banIsFilter == 0) {
+      this.getReservas();
+    } else {
+      // this.getFilterReservas();
+    }
+  }
+
+  /**
+   * in order to show the difference titles we set what is the current modal active
+   * @param typeModal
+   */
+  showModal(typeModal: string): void {
+
+    //reset all modals
+    this.modalEmployee = false;
+    this.modalClient = false;
+
+    if (typeModal == 'searchEmployee') {
+      this.modalEmployee = true;
+    }
+
+    if (typeModal == 'searchClient') {
+      this.modalClient = true;
+    }
+
+  }
+
+  /**
+   * save the option selected by the user when they make click on Seleccionar button on current modal
+   */
+
+  setModalOptionSelected(person: Person) {
+
+    if (this.modalClient) {
+      this.formValue.controls['idClient'].setValue(person.idPersona);
+      this.formValue.controls['nameClient'].setValue(`${person.nombre} ${person.apellido}`);
+    }
+    if (this.modalEmployee) {
+      this.formValue.controls['idEmployee'].setValue(person.idPersona);
+      this.formValue.controls['nameEmployee'].setValue(`${person.nombre} ${person.apellido}`);
+    }
+
+  }
+
+  /**
+   * search service using filters
+   */
+  search(): void {
+    //getting filters from form
+    const filters = this.getFilters();
+
+    console.log(filters)
+
+    //getting results from request
+    let inicio = this.config.currentPage - 1;
+    inicio = inicio * this.config.itemsPerPage;
+    this.serviceReserva.getReserva(filters, this.config.itemsPerPage, inicio).subscribe(
       next => this.reservas = next.lista,
       error => console.log('No se puedieron obtener reservas')
     )
   }
 
-  cleanFilter(): void {
-    this.formFilters.reset();
-    this.config.currentPage=1;
-    this.banIsFilter=0
-    this.getReservas()
+  getFilters(): Array<any> {
+    //replace format to all dates inputs
+    const dateStart = this.formValue.get('dateStart')?.value;
+    const dateEnd = this.formValue.get('dateEnd')?.value;
+
+    return [
+      this.formValue.get('idEmployee')?.value ?? null,
+      dateStart != null ? dateStart.replaceAll('-', '') : null,
+      dateEnd != null ? dateEnd.replaceAll('-', '') : null,
+      this.formValue.get('idClient')?.value ?? null
+    ]
   }
 
+  getClientAndEmployee(): void {
+    this.patientsService.getAllPersons().subscribe((res: any) => {
+      if (res?.lista.length > 0) {
+        this.clientsAndEmployees = res.lista
+      }
+    });
+  }
 
-  changePage(page: number){
-    this.config.currentPage=page;
-    if(this.banIsFilter==0){
-      this.getReservas();
-    }else{
-      // this.getFilterReservas();
-    }
+  cancelarReserva(id: String) {
+    this.serviceReserva.deleteReserva(id).subscribe({
+      next: (entity) => console.log('reserva borrada', entity),
+      error: (error) => console.log('no se pudo borrar la reserva', error),
+    });
+    this.ngOnInit()
+  }
+
+  setIDReserva(idReserva: String) {
+    this.serviceReserva.getUniqueReseva(idReserva).subscribe({
+        next: (entity) => {
+          this.reservaUpdate = entity
+          console.log(this.reservaUpdate)
+          this.formUpdate.controls['idReserva'].setValue(entity.idReserva)
+          this.formUpdate.controls['observacion'].setValue(entity.observacion)
+          this.formUpdate.controls['flagAsistio'].setValue(entity.flagAsistio)
+        },
+        error: (error) => console.log('no se pudo borrar la reserva', error)
+    })
+  }
+
+  updateObservacion() {
+    this.reservaUpdate.observacion = this.formUpdate.get('observacion')?.value
+    this.reservaUpdate.flagAsistio = this.formUpdate.get('flagAsistio')?.value
+    console.log(this.reservaUpdate)
+    this.serviceReserva.updateReserva(this.reservaUpdate).subscribe({
+      next: (entity) => console.log('actualizado', entity),
+      error: (error) => alert(error.message)
+    });
   }
 }
