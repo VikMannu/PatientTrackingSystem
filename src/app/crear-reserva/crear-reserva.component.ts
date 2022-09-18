@@ -20,7 +20,6 @@ export class CrearReservaComponent implements OnInit {
   clientsAndEmployees: Person[] = []
   employeeReserva: Person = new Person()
   patientReserva: Person = new Person()
-  addReserva: Reserva = new Reserva()
 
   constructor(
     private patientsService: PatientManagementService,
@@ -113,7 +112,6 @@ export class CrearReservaComponent implements OnInit {
 
   search(): void {
     const filters = this.getFilters();
-    console.log(filters)
 
     if (filters[0] == null || this.employeeReserva.idPersona == null || this.patientReserva.idPersona == null) {
       alert("Llene los campos")
@@ -123,7 +121,6 @@ export class CrearReservaComponent implements OnInit {
         error: (error) => alert(error.message)
       })
     }
-    console.log(this.reservas)
   }
 
   getFilters(): Array<any> {
@@ -142,8 +139,6 @@ export class CrearReservaComponent implements OnInit {
     reserva.idEmpleado.idPersona = this.employeeReserva.idPersona
     reserva.idCliente.idPersona = this.patientReserva.idPersona
     reserva.observacion = this.formValue.get('observacion')?.value
-
-    console.log(reserva)
 
     this.serviceCrearReserva.addReserva(reserva).subscribe({
       next: (entity) => console.log('agregado', entity),
