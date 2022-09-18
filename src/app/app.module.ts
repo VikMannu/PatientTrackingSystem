@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
 import { ServiceRegisterComponent } from './service-register/service-register.component';
 import { ReportComponent } from './report/report.component';
 import { ReportService } from './service/report.service';
+import { FichaClinicaComponent } from './ficha-clinica/ficha-clinica.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { ReportService } from './service/report.service';
     MenuComponent,
     ServiceRegisterComponent,
     LoginComponent,
-    ReportComponent
+    ReportComponent,
+    FichaClinicaComponent
   ],
   imports: [
     BrowserModule,
