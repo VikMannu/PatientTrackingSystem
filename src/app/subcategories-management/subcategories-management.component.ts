@@ -12,13 +12,16 @@ import { SubcategoryManagementService } from '../service/subcategory-management.
 export class SubcategoriesManagementComponent implements OnInit {
   formValue!: FormGroup;
   subcategory: Subcategory = new Subcategory();
+  subcategorySearchDesc: Subcategory = new Subcategory();
+  filter:any[]=[];
+  subcategorySearchId: Subcategory = new Subcategory();
   config: ConfigPage = new ConfigPage();
   //lista de  categorias existentes
   subcategories: Subcategory[] = [];
   message: string = '';
   showAdd!: boolean;
   showUpdate!: boolean;
-
+  banIsFilter!:number;
   constructor(
     private serviceSubcategory: SubcategoryManagementService,
     private formbuilber: FormBuilder
@@ -27,8 +30,13 @@ export class SubcategoriesManagementComponent implements OnInit {
   ngOnInit(): void {
     this.formValue = this.formbuilber.group({
       descripcion: [''],
-      categoria: ['']
+      categoria: [''],
+      filterIdInput:null,
+      filterDescInput:null,
     });
+    this.banIsFilter=0;
+    this.filter[0]='';
+    this.filter[1]='';
     this.config.currentPage = 1;
     this.getSubcategories();
   }
@@ -38,6 +46,7 @@ export class SubcategoriesManagementComponent implements OnInit {
     this.showAdd = true;
     this.showUpdate = false;
   }
+  //funcion para agregar una subcategoria
   saveSubcategory(): void {
     this.subcategory.descripcion=this.formValue.value.descripcion;
     this.subcategory.idCategoria.idCategoria=this.formValue.value.categoria;
@@ -52,6 +61,7 @@ export class SubcategoriesManagementComponent implements OnInit {
       (error) => console.log('error: ' + error)
     );
   }
+  //funcion para obtener todas las subcategorias
   getSubcategories(): void {
     let inicio = this.config.currentPage - 1;
     inicio = inicio * this.config.itemsPerPage;
@@ -62,8 +72,40 @@ export class SubcategoriesManagementComponent implements OnInit {
         (error) => console.log('no se pudieron conseguir las categorias')
       );
   }
-  deleteSubcategory(subcategory: Subcategory): void {
-    this.serviceSubcategory.deleteSubcategory(subcategory.idTipoProducto).subscribe(
+  //funcion para obtener los valores de los filtros
+  getFilter(){
+    return[
+      this.formValue.get('filterIdInput')?.value ?? null,
+      this.formValue.get('filterDescInput')?.value ?? null
+    ];
+  }
+  //funcion para filtrar por id o descripcion
+  getFilterSubcategories():void{
+    let inicio = this.config.currentPage - 1;
+    inicio = inicio * this.config.itemsPerPage;
+    const filters=this.getFilter();
+    this.serviceSubcategory
+    .getFilterSubcategories(filters,this.config.itemsPerPage, inicio)
+    .subscribe(
+      (entity) => (this.subcategories = entity.lista),
+      (error) => console.log('no se pudieron conseguir las categorias filtradas')
+    );
+  }
+  //funcion para paginar
+  filtrar(){
+    this.config.currentPage=1;
+    this.getFilterSubcategories();
+  }
+  //funcion para filtrar por id o descripcion
+  cleanFilters():void {
+    this.config.currentPage=1;
+    this.formValue.reset();
+    this.getSubcategories();
+  }
+
+  //funcion para eliminar una subcategoria
+  deleteSubcategory(subcat: Subcategory): void {
+    this.serviceSubcategory.deleteSubcategory(subcat.idTipoProducto).subscribe(
       () => {
         this.message = 'Eliminado exitosamente';
         this.getSubcategories();
@@ -71,6 +113,7 @@ export class SubcategoriesManagementComponent implements OnInit {
       (error) => console.log('error: ' + error)
     );
   }
+  //funcion para mostrar los valores de la subcategoria a actualizar
   editSubcategory(subcat: Subcategory): void {
     this.showAdd = false;
     this.showUpdate = true;
@@ -78,6 +121,7 @@ export class SubcategoriesManagementComponent implements OnInit {
     this.formValue.controls['descripcion'].setValue(subcat.descripcion);
     this.formValue.controls['categoria'].setValue(subcat.idCategoria.idCategoria);
   }
+  //funcion para actualizar una subcategoria
   updateSubcategory(): void{
     this.subcategory.descripcion=this.formValue.value.descripcion;
     this.subcategory.idCategoria.idCategoria=this.formValue.value.categoria;
@@ -92,8 +136,10 @@ export class SubcategoriesManagementComponent implements OnInit {
       error => console.log("error: "+error)
     );
   }
+  //funcion para paginar
   changePage(page: number) {
     this.config.currentPage = page;
-    this.getSubcategories();
+    this.getFilterSubcategories();
   }
+
 }

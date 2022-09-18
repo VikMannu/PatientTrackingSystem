@@ -8,6 +8,8 @@ import { CategoryManagementService } from '../service/category-management/catego
 import { SubcategoryManagementService } from '../service/subcategory-management.service';
 import { Person } from '../model/person';
 import { PatientManagementService } from '../service/patient-management.service';
+import { ClinicalRecordService } from '../service/clinical-record.service';
+import { FichaClinica } from '../model/fichaClinica';
 
 @Component({
   selector: 'app-service-register',
@@ -20,14 +22,20 @@ export class ServiceRegisterComponent implements OnInit {
   categories: Category[] =[];
   subcategories: Subcategory[] =[];
   formValue!: FormGroup;
+  agregarForm!: FormGroup;
+  agregarDetalleForm!: FormGroup;
   modalEmployee:boolean =false;
   modalClient:boolean =false;
+  modalAgregarServicio:boolean =false;
   clientsAndEmployees: Person[] =[];
+  clinicalRecords: FichaClinica []=[];
+  fichaActiva: FichaClinica = new FichaClinica();
   constructor(
     private serviceRegisterService: ServiceRegisterService,
     private categoryService: CategoryManagementService,
     private subcategoryService: SubcategoryManagementService,
     private patientsService: PatientManagementService,
+    private clinicalRecordService: ClinicalRecordService,
     private formbuilber: FormBuilder
     ) { }
 
@@ -37,14 +45,22 @@ export class ServiceRegisterComponent implements OnInit {
     this.getCategories();
     this.getSubcategories();
     this.getClientAndEmployee();
+    this.getClinicalRecords();
   }
 
+  getClinicalRecords():void{
+    this.clinicalRecordService.getClinicalRecord().subscribe((res:any)=>{
+        if(res?.lista.length > 0){
+          this.clinicalRecords = res.lista
+        }
+    })
+  }
   getClientAndEmployee():void{
     this.patientsService.getAllPersons().subscribe((res:any)=>{
       if(res?.lista.length > 0){
         this.clientsAndEmployees =res.lista
       }
-      // console.log(this.clientsAndEmployees);
+
     });
   }
   initForm():void{
@@ -56,7 +72,27 @@ export class ServiceRegisterComponent implements OnInit {
       dateStart: null,
       dateEnd: null,
       category: '',
-      subcategory: ''
+      subcategory: '',
+
+    });
+    this.agregarForm = this.formbuilber.group({
+      idClient: null,
+      idEmployee: null,
+      nameClient: null,
+      nameEmployee: null,
+      date: null,
+      clinicalRecordSelected: null,
+      observacion: null
+    });
+
+    this.agregarDetalleForm = this.formbuilber.group({
+      idClient: null,
+      idEmployee: null,
+      nameClient: null,
+      nameEmployee: null,
+      date: null,
+      clinicalRecordSelected: null,
+      observacion: null
     });
   }
   getServices(){
@@ -64,7 +100,7 @@ export class ServiceRegisterComponent implements OnInit {
       if(res?.lista.length > 0){
         this.services =res.lista
       }
-      // console.log(this.services);
+
     });
   }
 
@@ -74,7 +110,6 @@ export class ServiceRegisterComponent implements OnInit {
         this.categories =res.lista
       }
 
-      // console.log(this.categories);
 
     })
   }
@@ -84,7 +119,7 @@ export class ServiceRegisterComponent implements OnInit {
       if(res?.lista.length > 0){
         this.subcategories =res.lista
       }
-      // console.log(this.subcategories);
+
 
     })
   }
@@ -94,6 +129,8 @@ export class ServiceRegisterComponent implements OnInit {
   cleanFilters():void {
 
     this.formValue.reset();
+    this.agregarForm.reset();
+    this.getClinicalRecords();
     this.getServices();
 
   }
@@ -107,13 +144,17 @@ export class ServiceRegisterComponent implements OnInit {
     //reset all modals
     this.modalEmployee = false;
     this.modalClient = false;
-
+    this.modalAgregarServicio = false;
     if(typeModal == 'searchEmployee'){
       this.modalEmployee =true;
     }
 
     if(typeModal == 'searchClient'){
       this.modalClient = true;
+    }
+
+    if(typeModal == 'createService'){
+      this.modalAgregarServicio = true;
     }
 
   }
@@ -138,42 +179,79 @@ export class ServiceRegisterComponent implements OnInit {
    /**
     * search service using filters
     */
-    search():void{
-      //getting filters from form
-      const filters = this.getFilters();
+    search(currentForm = 'service'):void{
+      if(currentForm == 'service'){
+        //getting filters from form
+        const filters = this.getFilters();
 
-      //getting results from request
-      this.serviceRegisterService.getService(filters).subscribe((res:any)=>{
+        //getting results from request
+        this.serviceRegisterService.getService(filters).subscribe((res:any)=>{
 
-        if(res?.lista){
-          this.services = res.lista;
+          if(res?.lista){
+            this.services = res.lista;
 
-          //filter by categories and subcategories
-          const category = this.formValue.get('category')?.value;
-          const subcategory = this.formValue.get('subcategory')?.value;
+            //filter by categories and subcategories
+            const category = this.formValue.get('category')?.value;
+            const subcategory = this.formValue.get('subcategory')?.value;
 
 
-          if(category || subcategory){
+            if(category || subcategory){
 
-            this.services = this.services.filter((value,index)=>{
-              let result = true;
-              //filter category
-              if(category){
-                  result = value.idFichaClinica.idTipoProducto.idCategoria.idCategoria ==category;
-              }
+              this.services = this.services.filter((value,index)=>{
+                let result = true;
+                //filter category
+                if(category){
+                    result = value.idFichaClinica.idTipoProducto.idCategoria.idCategoria ==category;
+                }
 
-              //filter subcategory
-              if (subcategory && result) {
-                result = value.idFichaClinica.idTipoProducto.idTipoProducto == subcategory;
-              }
+                //filter subcategory
+                if (subcategory && result) {
+                  result = value.idFichaClinica.idTipoProducto.idTipoProducto == subcategory;
+                }
 
-              return result;
-            });
+                return result;
+              });
 
+            }
           }
-        }
 
-      })
+        })
+      }
+
+      if(currentForm == 'clinicalRecord'){
+        //getting filters from form
+        const filters = this.getClinicalRecordsFilters();
+
+
+        //getting results from request
+        this.clinicalRecordService.getClinicalRecord(filters).subscribe((res:any)=>{
+
+          if(res?.lista){
+            this.clinicalRecords = res.lista;
+          }
+
+        })
+      }
+    }
+
+    storeService():void{
+
+
+      const observacion = this.agregarForm.get('observacion')?.value;
+      const clinicalRecordSelected = this.agregarForm.get('clinicalRecordSelected')?.value;
+
+      if(clinicalRecordSelected){
+        this.serviceRegisterService.storeService(clinicalRecordSelected,observacion).subscribe((res:any)=>{
+          if(res){
+            alert('Servicio registrado correctamente');
+          }else
+            alert('Error al registrar servicio');
+
+        })
+      }else{
+        alert('Debe seleccionar una ficha clinica');
+      }
+
     }
 
     getFilters():Array<any>{
@@ -187,5 +265,22 @@ export class ServiceRegisterComponent implements OnInit {
         this.formValue.get('idClient')?.value ?? null,
         this.formValue.get('idEmployee')?.value ?? null
       ]
+    }
+
+    getClinicalRecordsFilters():Array<any>{
+      //replace format to all dates inputs
+      const date = this.agregarForm.get('date')?.value;
+
+      return [
+        date != null ? date.replaceAll('-','') :null,
+        null,
+        this.agregarForm.get('idEmployee')?.value ?? null,
+        this.agregarForm.get('idClient')?.value ?? null,
+        null
+      ]
+    }
+
+    setService(ficha :FichaClinica){
+      this.fichaActiva = ficha;
     }
 }

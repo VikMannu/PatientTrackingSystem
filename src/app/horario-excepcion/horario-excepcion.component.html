@@ -1,0 +1,143 @@
+<nav class="navbar navbar-dark bg-dark" style="border-top: 1px solid white;">
+  <div class="container-fluid">
+      <h2 style="color:aliceblue">Horarios Excepcionales</h2>
+      <div class="d-flex justify-content-end gap-2">
+        <button (click)="clickAdd()" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar</button>
+      </div>
+    </div>
+  </nav>
+<div class="card mx-2 pt-2">
+  <div class="card-body">
+    <h4>Filtros de busqueda</h4>
+
+    <!-- Filter section -->
+    <form [formGroup]="formValue">
+      <div class="row filters">
+        <div class="col-sm-12 col-md-6">
+          <label for="date-start" class="form-label">Fecha</label>
+          <input formControlName="dateStart" placeholder="AAAA-MM-DD" type="text" id="date-start" class="form-control" />
+        </div>
+        <div class="col-sm-12 col-md-6" align="left">
+          <label for="date-start" class="form-label">Id Empleado</label>
+          <input class="form-control" formControlName="idEmployee">
+        </div>
+
+
+        <!--Modal funtionality  -->
+
+        <div class="d-flex gap-2 my-2 justify-content-end">
+          <button class="btn btn-primary" id="btn-search" (click)="filtrar()" >Buscar</button>
+          <button
+            class="btn btn-danger"
+            id="btn-clean"
+            (click)="cleanFilters()"
+          >
+            Limpiar
+          </button>
+        </div>
+      </div>
+    </form>
+
+
+    <div class="container text-rigth">
+      <div class="row">
+        <div class="col-md">
+          <div class="table-responsive">
+            <table class="table table-striped caption-top">
+              <caption>
+                <p *ngIf="message!=''">{{ message }}</p>
+              </caption>
+              <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Fecha Cadena</th>
+                <th scope="col">Hora de Apertura</th>
+                <th scope="col">Hora de Cierre</th>
+                <th scope="col">Flag</th>
+                <th scope="col">Id empleado</th>
+                <th scope="col">Intervalo (minutos)</th>
+                <th scope="col">Acción</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let horario of horariosExcepciones">
+                <th scope="row">{{horario.idHorarioExcepcion}}</th>
+                <td>{{horario.fechaCadena}}</td>
+                <td>{{horario.horaAperturaCadena}}</td>
+                <td>{{horario.horaCierreCadena}}</td>
+                <td>{{horario.flagEsHabilitar}}</td>
+                <td>{{horario.idEmpleado.idPersona}}</td>
+                <td>{{horario.intervaloMinutos}}</td>
+                <td>
+                  <div class="d-grid gap-2 d-md-block">
+                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editSchedule(horario)">Editar</button>
+                    <button class="btn btn-danger mx-3" (click)="deleteSchedule(horario)">Eliminar</button>
+                  </div>
+                </td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="showAdd" class="modal-title" id="agregarPacienteLabel">Agregar Horario</h5>
+        <h5 *ngIf="showUpdate" class="modal-title" id="exampleModalLabel">Editar Horario</h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup] = "formValue">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Fecha</label>
+            <input type="text" formControlName="fechaCadena" placeholder="AAAAMMDD" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Hora Apertura Cadena</label>
+            <input type="text" formControlName="horaAperturaCadena" placeholder="HHMM" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Hora Cierre Cadena</label>
+            <input type="text" formControlName="horaCierreCadena" placeholder="HHMM" class="form-control">
+
+            <label for="exampleInputEmail1" class="form-label">Intervalo Minutos</label>
+            <input type="text" formControlName="intervaloMinutos" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Id Empleado</label>
+            <input type="text" formControlName="idEmpleado" class="form-control" >
+
+            <label for="exampleInputEmail1" class="form-label">Flag es habilitar</label>
+            <input type="text" formControlName="flagEsHabilitar" placeholder="S" class="form-control" >
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancel" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" *ngIf="showAdd" class="btn btn-primary" (click)="saveSchedule()">Agregar</button>
+        <button type="button" *ngIf="showUpdate" class="btn btn-primary" (click)="updateSchedule()">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end mx-4">
+    <li class="page-item"><a *ngIf="config.currentPage>1" class="page-link" (click)="changePage(config.currentPage-1)">Anterior</a></li>
+    <li class="page-item"><a class="page-link active">{{config.currentPage}} </a></li>
+    <li class="page-item"><a *ngIf="horariosExcepciones.length>1"class="page-link" (click)="changePage(config.currentPage+1)">Siguiente</a></li>
+  </ul>
+</nav>

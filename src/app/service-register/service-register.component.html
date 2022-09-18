@@ -1,7 +1,12 @@
+<nav class="navbar navbar-dark bg-dark" style="border-top:1px solid white">
+  <div class="container-fluid">
+      <h1 style="color:aliceblue">Servicios</h1>
+      <div class="gap-2 d-flex justify-content-end">
+      </div>
+    </div>
+  </nav>
 <div class="card mx-2 pt-2">
-  <div class="card-header">
-    <h2>Servicios</h2>
-  </div>
+
   <div class="card-body">
     <h4>Filtros de busqueda</h4>
 
@@ -10,11 +15,21 @@
       <div class="row filters">
         <div class="col-sm-12 col-md-6">
           <label for="date-start" class="form-label">Fecha desde</label>
-          <input formControlName="dateStart" type="date" id="date-start" class="form-control" />
+          <input
+            formControlName="dateStart"
+            type="date"
+            id="date-start"
+            class="form-control"
+          />
         </div>
         <div class="col-sm-12 col-md-6">
           <label for="date-end" class="form-label">Fecha hasta</label>
-          <input formControlName="dateEnd" type="date" id="date-end" class="form-control" />
+          <input
+            formControlName="dateEnd"
+            type="date"
+            id="date-end"
+            class="form-control"
+          />
         </div>
 
         <!--Modal funtionality  -->
@@ -22,7 +37,7 @@
         <div class="col-sm-12 col-md-6">
           <input
             type="hidden"
-            formControlName="idClient"
+            formControlName="idEmployee"
             id="empleado"
             class="form-control"
           />
@@ -71,7 +86,12 @@
 
         <div class="col-sm-12 col-md-6">
           <label for="categoria" class="form-label">Categoria</label>
-          <select formControlName="category" name="categoria" id="categoria" class="form-select">
+          <select
+            formControlName="category"
+            name="categoria"
+            id="categoria"
+            class="form-select"
+          >
             <option value="">Selecciona un valor</option>
             <option
               *ngFor="let category of categories"
@@ -84,7 +104,12 @@
 
         <div class="col-sm-12 col-md-6">
           <label for="sub-categoria" class="form-label">Subcategoria</label>
-          <select formControlName="subcategory" name="subcategory" id="sub-categoria" class="form-control">
+          <select
+            formControlName="subcategory"
+            name="subcategory"
+            id="sub-categoria"
+            class="form-control"
+          >
             <option value="">Selecciona un valor</option>
             <option
               *ngFor="let subcategory of subcategories"
@@ -96,7 +121,9 @@
         </div>
 
         <div class="d-flex gap-2 my-2 justify-content-end">
-          <button class="btn btn-primary" id="btn-search" (click)="search()">Buscar</button>
+          <button class="btn btn-primary" id="btn-search" (click)="search()">
+            Buscar
+          </button>
           <button
             class="btn btn-danger"
             id="btn-clean"
@@ -135,18 +162,36 @@
           <td>{{ service.idFichaClinica.idTipoProducto.descripcion }}</td>
 
           <td class="d-flex gap-2">
-            <button class="btn btn-warning text-white">Editar Servicion</button>
-            <button class="btn btn-info text-white">ver</button>
+            <button
+              class="btn btn-warning text-white"
+              (click)="setService(service.idFichaClinica)"
+              data-bs-toggle="modal"
+              data-bs-target="#agregarDetalleModal"
+            >
+              Ver/Editar Servicion
+            </button>
           </td>
         </tr>
         <tr *ngIf="services.length == 0">
-            <td colspan="8">
-                <span class="text-danger text-center">No se encontraron resultados</span>
-            </td>
+          <td colspan="8">
+            <span class="text-danger text-center"
+              >No se encontraron resultados</span
+            >
+          </td>
         </tr>
-      
-    </tbody>
-</table>
+      </tbody>
+    </table>
+
+    <div class="my-5 d-flex justify-content-end">
+      <button
+        class="btn btn-primary"
+        (click)="showModal('createService')"
+        data-bs-toggle="modal"
+        data-bs-target="#agregarServicioModal"
+      >
+        Agregar Servicio
+      </button>
+    </div>
   </div>
 </div>
 
@@ -167,6 +212,13 @@
         <h5 *ngIf="modalClient" class="modal-title" id="modalClientLabel">
           Buscar Cliente
         </h5>
+        <h5
+          *ngIf="modalAgregarServicio"
+          class="modal-title"
+          id="modalClientLabel"
+        >
+          Agregar Servicio
+        </h5>
         <button
           type="button"
           class="btn-close"
@@ -176,7 +228,7 @@
       </div>
       <div class="modal-body">
         <!-- <form [formGroup] = "formValue"> -->
-        <div class="table-responsive">
+        <div *ngIf="modalEmployee || modalClient" class="table-responsive">
           <table class="table w-100">
             <thead>
               <tr>
@@ -203,7 +255,8 @@
                 <td>{{ person.fechaNacimiento }}</td>
                 <td>
                   <button
-                    class="btn btn-success" data-bs-dismiss="modal"
+                    class="btn btn-success"
+                    data-bs-dismiss="modal"
                     (click)="setModalOptionSelected(person)"
                   >
                     Seleccionar
@@ -213,12 +266,450 @@
             </tbody>
           </table>
         </div>
+
+        <div *ngIf="modalAgregarServicio" class="table-responsive">
+          <form [formGroup]="agregarForm">
+            <div class="row">
+              <h2>Filtros</h2>
+              <div class="col col-md-12">
+                <div class="form-group">
+                  <label for="idFechaClinica">Fecha</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="idFechaClinica"
+                    formControlName="date"
+                  />
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6">
+                <input
+                  type="hidden"
+                  formControlName="idClient"
+                  id="empleado"
+                  class="form-control"
+                />
+                <label for="empleado" class="form-label">Empleado</label>
+                <input
+                  type="text"
+                  formControlName="nameEmployee"
+                  id="empleado-name"
+                  class="form-control"
+                />
+                <button
+                  (click)="showModal('searchEmployee')"
+                  class="btn btn-primary my-1 w-100"
+                  data-bs-toggle="modal"
+                  data-bs-target="#genericModal"
+                >
+                  Buscar
+                </button>
+              </div>
+
+              <div class="col-sm-12 col-md-6">
+                <input
+                  type="hidden"
+                  formControlName="idClient"
+                  id="cliente"
+                  class="form-control"
+                />
+                <label for="cliente-name" class="form-label">Cliente</label>
+                <input
+                  type="text"
+                  formControlName="nameClient"
+                  id="cliente-name"
+                  class="form-control"
+                />
+                <button
+                  (click)="showModal('searchClient')"
+                  class="btn btn-primary my-1 w-100"
+                  data-bs-toggle="modal"
+                  data-bs-target="#genericModal"
+                >
+                  Buscar
+                </button>
+              </div>
+
+              <div class="col-12 my-2">
+                <h2>Campos disponibles para la creacion del servicio</h2>
+                <div class="form-group">
+                  <label for="idFichaClinica">Observacion</label>
+                  <input type="text" class="form-control" id="idObservacion" />
+                </div>
+                <div class="text-center">
+                  <h4>
+                    Seleccione una Ficha clinica de la tabla y presione el boton
+                    guardar
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <table class="table w-100">
+            <thead>
+              <tr>
+                <th>Id Ficha</th>
+                <th>Fecha Categoria</th>
+                <th>Subcategoria</th>
+                <th>Empleado</th>
+                <th>Cliente</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let clinicalRecord of clinicalRecords">
+                <td>{{ clinicalRecord.idFichaClinica }}</td>
+                <td>{{ clinicalRecord.fechaHora }}</td>
+                <td>{{ clinicalRecord.idTipoProducto.descripcion }}</td>
+                <td>{{ clinicalRecord.idEmpleado.nombre }}</td>
+                <td>{{ clinicalRecord.idCliente.nombre }}</td>
+                <td>
+                  <!-- <button
+                    class="btn btn-success"
+                    data-bs-dismiss="modal"
+                    (click)="setModalOptionSelected(person)"
+                  >
+                    Seleccionar
+                  </button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cerrar
+          </button>
+          <button type="button" class="btn btn-primary">Guardar</button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Cerrar
-        </button>
-        <button type="button" class="btn btn-primary">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="agregarServicioModal"
+  tabindex="-1"
+  aria-labelledby="agregarServicioModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          *ngIf="modalAgregarServicio"
+          class="modal-title"
+          id="modalClientLabel"
+        >
+          Agregar Servicio
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- <form [formGroup] = "formValue"> -->
+
+        <div class="table-responsive">
+          <form [formGroup]="agregarForm">
+            <div class="row">
+              <h2>Filtros</h2>
+              <div class="col col-md-12">
+                <div class="form-group">
+                  <label for="idFechaClinica">Fecha</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="idFechaClinica"
+                    formControlName="date"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Empleado</label>
+                  <select
+                    formControlName="idEmployee"
+                    id="idEmployee"
+                    class="form-control form-select"
+                  >
+                    <option
+                      *ngFor="let person of clientsAndEmployees"
+                      [value]="person.idPersona"
+                    >
+                      {{ person.nombre }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Cliente</label>
+                  <select
+                    formControlName="idClient"
+                    class="form-control form-select"
+                  >
+                    <option
+                      *ngFor="let person of clientsAndEmployees"
+                      [value]="person.idPersona"
+                    >
+                      {{ person.nombre }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end">
+                <button
+                  (click)="search('clinicalRecord')"
+                  class="btn btn-primary m-1"
+                >
+                  Filtrar
+                </button>
+                <button (click)="cleanFilters()" class="btn btn-danger my-1">
+                  Limpiar
+                </button>
+              </div>
+
+              <div class="col-12 my-2 py-5">
+                <h2>Campos disponibles para la creacion del servicio</h2>
+                <div class="form-group">
+                  <label for="idFichaClinica">Observacion</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="idObservacion"
+                    formControlName="observacion"
+                  />
+                </div>
+              </div>
+              <div class="text-center">
+                <h4>
+                  Seleccione una Ficha clinica de la tabla y presione el boton
+                  guardar
+                </h4>
+              </div>
+            </div>
+
+            <table class="table w-100">
+              <thead>
+                <tr>
+                  <th>Id Ficha</th>
+                  <th>Fecha Categoria</th>
+                  <th>Subcategoria</th>
+                  <th>Empleado</th>
+                  <th>Cliente</th>
+                  <th>Seleccionar Ficha</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let clinicalRecord of clinicalRecords">
+                  <td>{{ clinicalRecord.idFichaClinica }}</td>
+                  <td>{{ clinicalRecord.fechaHora }}</td>
+                  <td>{{ clinicalRecord.idTipoProducto.descripcion }}</td>
+                  <td>{{ clinicalRecord.idEmpleado.nombre }}</td>
+                  <td>{{ clinicalRecord.idCliente.nombre }}</td>
+                  <td class="text-center">
+                    <input
+                      type="radio"
+                      formControlName="clinicalRecordSelected"
+                      [value]="clinicalRecord.idFichaClinica"
+                      placeholder="Selected"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cerrar
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="storeService()"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AGREGAR DETALLE MODAL -->
+
+<div
+  class="modal fade"
+  id="agregarDetalleModal"
+  tabindex="-1"
+  aria-labelledby="agregarDetalleModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalClientLabel">Agregar Detalle</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- <form [formGroup] = "formValue"> -->
+
+        <div class="table-responsive">
+          <form [formGroup]="agregarDetalleForm">
+            <div class="row">
+              <h2>Datos</h2>
+              <div class="col col-md-12">
+                <div class="form-group">
+                  <label for="idFechaClinica">Fecha</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="idFechaClinica"
+                    [value]="fichaActiva.fechaHora"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Empleado</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="fichaActiva.idEmpleado.idPersona"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Cliente</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="fichaActiva.idCliente.idPersona"
+                  />
+                </div>
+              </div>
+
+              <div class="col-12 my-2 py-5">
+                <div class="form-group">
+                  <label for="idFichaClinica">Observacion</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="idObservacion"
+                    [value]="fichaActiva.observacion"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <table class="table w-100">
+              <thead>
+                <tr>
+                  <th>Id Ficha</th>
+                  <th>Fecha Categoria</th>
+                  <th>Subcategoria</th>
+
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ fichaActiva.idFichaClinica }}</td>
+                  <td>{{ fichaActiva.fechaHora }}</td>
+                  <td>
+                    {{ fichaActiva.idTipoProducto.idCategoria.descripcion }}
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+
+        <div class="col-12 my-5">
+          <div class="form-group">
+            <label class="form-label" for="">Categoria</label>
+            <input class="form-control" type="text" placeholder="ID">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Subcategoria</label>
+            <input class="form-control" type="text" placeholder="ID">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Tipo de Servicio</label>
+            <input class="form-control" type="text" placeholder="ID">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Precio</label>
+            <input class="form-control" type="text" placeholder="1000" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="">Cantidad</label>
+            <input class="form-control" type="text" placeholder="5" >
+          </div>
+
+          <button class="btn btn-primary my-1" onclick="alert('El servidor se encuentra en mantenimiento, intente mas tarde')">Agregar Detalle</button>
+        </div>
+
+        <table class="table w-100">
+          <thead>
+            <tr>
+              <th>Id Detalle</th>
+              <th>Presentacion</th>
+              <th>Precio Unitario</th>
+              <th>Cantidad</th>
+              <th>Total</th>
+
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><small class="text-danger">No se encontraron registros</small></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cerrar
+          </button>
+
+        </div>
       </div>
     </div>
   </div>
