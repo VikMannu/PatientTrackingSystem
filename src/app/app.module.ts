@@ -47,7 +47,6 @@ import { CrearReservaComponent } from './crear-reserva/crear-reserva.component';
     MenuComponent,
     ServiceRegisterComponent,
     LoginComponent,
-    ReportComponent,
     FichaClinicaComponent
   ],
   imports: [

@@ -49,6 +49,7 @@ export class CrearReservaComponent implements OnInit {
    */
   cleanFilters(): void {
     this.formValue.reset();
+    this.search()
   }
 
   /**
