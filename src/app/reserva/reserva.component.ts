@@ -214,12 +214,23 @@ export class ReservaComponent implements OnInit {
   }
 
   updateObservacion() {
+    let updateObs = new UpdateObservacion()
     this.reservaUpdate.observacion = this.formUpdate.get('observacion')?.value
     this.reservaUpdate.flagAsistio = this.formUpdate.get('flagAsistio')?.value
-    console.log(this.reservaUpdate)
-    this.serviceReserva.updateReserva(this.reservaUpdate).subscribe({
+
+    updateObs.idReserva = this.reservaUpdate.idReserva
+    updateObs.observacion = this.reservaUpdate.observacion
+    updateObs.flagAsistio = this.reservaUpdate.flagAsistio
+    console.log(updateObs)
+    this.serviceReserva.updateReserva(updateObs).subscribe({
       next: (entity) => console.log('actualizado', entity),
       error: (error) => alert(error.message)
     });
   }
+}
+
+class UpdateObservacion {
+  idReserva!: String
+  observacion!: String
+  flagAsistio!: String
 }

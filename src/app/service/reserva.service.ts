@@ -52,15 +52,18 @@ export class ReservaService {
     }));
   }
 
-  updateReserva(p: Reserva): Observable<any> {
+  updateReserva(p: any): Observable<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'usuario': 'usuario1'
     });
 
     let options = {headers: headers};
 
-    return this.http.put(`${environment.baseUrlApi}/${this.reservaUrl}`, p, options).pipe(tap({
-      next: (data) => console.log('actualizado ' + data), error: (error) => console.log("error: " + error),
+    return this.http.put(`${environment.baseUrlApi}/${this.reservaUrl}`, p, options).pipe(
+      tap({
+        next: (data) => console.log('actualizado ' + data),
+        error: (error) => console.log("error: " + error),
     }));
   }
 }
